@@ -1,4 +1,4 @@
-package com.eduinline.tools.base.lang;
+package com.eduinline.tools.base.thread;
 
 /**
  * <p>com.helizfamily.tools.base.lang.ThreadUtil.java</p>

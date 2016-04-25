@@ -4,12 +4,10 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 /**
- * <p>com.hezliz.tools.base.exception.ExceptionUtil.java</p>
+ * <p>异常处理工具类</p>
  *
- * @author helizfamily helizfamily@qq.com
- * @version 1.0 2016年2月1日-下午2:14:35
- * @modifyed helizfamily helizfamily@qq.com
- * @purpose 异常工具类
+ * @author hongze.he@eduinline.com
+ * @version 1.0 2016年4月25日-下午8:37:24
  */
 public class ExceptionUtil {
 

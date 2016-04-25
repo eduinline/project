@@ -13,7 +13,7 @@ import java.net.UnknownHostException;
  * @modifyed helizfamily helizfamily@qq.com
  * @purpose Socket客户端。
  */
-public class SocketClient extends SocketAbstract{
+public class SocketClient extends SocketAbs{
 
 	private static final String SUCCESS = 
 			"Socket客户端连接成功.serverIP={0},serverPort={1},localIP={2},localPort={3}";

@@ -15,7 +15,7 @@ import java.text.MessageFormat;
  * @modifyed helizfamily helizfamily@qq.com
  * @purpose 基于UDP协议进行广播的Socket套接字客户端。
  */
-public class DatagramSocketBroadCast extends DatagramSocketAbstract{
+public class DatagramSocketBroadCast extends DatagramSocketAbs{
 
 	/** DatagramSocket */
 	protected DatagramSocket datagramSocket = null;

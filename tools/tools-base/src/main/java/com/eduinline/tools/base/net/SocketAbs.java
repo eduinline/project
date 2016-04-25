@@ -14,7 +14,7 @@ import java.text.MessageFormat;
  * @modifyed helizfamily helizfamily@qq.com
  * @purpose 封装Socket的公共处理功能。
  */
-public abstract class SocketAbstract extends SocketBase{
+public abstract class SocketAbs extends SocketBase{
 
 	private static final String SEND = 
 			"Socket发送消息异常.serverIP={0},serverPort={1},localIP={2},localPort={3}";

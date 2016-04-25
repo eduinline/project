@@ -15,16 +15,14 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 /**
- * <p>com.helizfamily.tools.base.imageio.ImageUtil.java</p>
+ * <p>验证码生成工具类</p>
  *
- * @author helizfamily helizfamily@qq.com
- * @version 1.0 2016年2月29日-下午5:12:35
- * @modifyed helizfamily helizfamily@qq.com
- * @purpose 验证码生成工具类
+ * @author hongze.he@eduinline.com
+ * @version 1.0 2016年4月25日-下午8:37:24
  */
-public class VerifyCodeUtil{
+public class VerifyCode{
 	
-	/** 验证码内容 */
+	/** 验证码内容集 */
 	public static final String VERIFY_CODES = 
 			"123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	/** 随机对象 */

@@ -10,7 +10,7 @@ import java.io.IOException;
 * @modifyed helizfamily helizfamily@qq.com
 * @purpose Socket访问处理线程类。
 */
-public abstract class SocketHandle extends SocketAbstract implements Runnable {
+public abstract class SocketHandle extends SocketAbs implements Runnable {
 
 	/**
 	 * 抽象方法，子类实现。根据Socket得到的数据进行处理

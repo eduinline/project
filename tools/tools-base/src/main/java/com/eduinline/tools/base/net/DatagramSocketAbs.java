@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
  * @modifyed helizfamily helizfamily@qq.com
  * @purpose 基于UDP协议进行单播和广播的Socket套接字公共类。
  */
-public abstract class DatagramSocketAbstract extends SocketBase{
+public abstract class DatagramSocketAbs extends SocketBase{
 	
 	protected static final String SUCCESS = 
 			"DatagramSocket客户端初始化成功.toHost={0},toPort={1},localIP={2},localPort={3}";

@@ -16,7 +16,7 @@ import java.text.MessageFormat;
  * @purpose 基于UDP协议进行多播的Socket套接字客户端。多播组通过 D类IP地址和标准UDP端口号指定。
  * D类IP地址在 224.0.0.0 和 239.255.255.255 的范围内（包括两者）。地址 224.0.0.0 被保留，不应使用。
  */
-public class DatagramSocketMulticast extends DatagramSocketAbstract{
+public class DatagramSocketMulticast extends DatagramSocketAbs{
 
 	protected boolean loopbackMode = true;
 

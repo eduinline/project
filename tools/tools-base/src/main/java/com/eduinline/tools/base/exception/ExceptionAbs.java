@@ -3,25 +3,29 @@ package com.eduinline.tools.base.exception;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-/**
- * <p>com.hezliz.tools.base.exception.Exceptions.java</p>
- *
- * @author hezliz hezliz@qq.com
- * @version 1.0 2016年1月28日-下午2:37:36
- * @modifyed hezliz hezliz@qq.com
- * @purpose 异常信息处理抽象类，有自定义异常的话继承此抽象类
- */
-public abstract class AbstractException extends Exception {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+/**
+ * <p>异常信息处理抽象类，有自定义异常类则继承此抽象类</p>
+ *
+ * @author hongze.he@eduinline.com
+ * @version 1.0 2016年4月25日-下午8:37:24
+ */
+public abstract class ExceptionAbs extends Exception {
+	
 	private static final long serialVersionUID = 7659905943361817995L;
 	
+	/** 日志对象 */
+	protected Logger logger = LoggerFactory.getLogger(getClass());
+
 	/** 异常信息 */
 	private String message;
 
 	/**
 	 * 默认构造函数
 	 */
-	public AbstractException() {
+	public ExceptionAbs() {
 		super();
 	}
 
@@ -29,7 +33,7 @@ public abstract class AbstractException extends Exception {
 	 * 构造函数
 	 * @param message 提示信息
 	 */
-	public AbstractException(String message) {
+	public ExceptionAbs(String message) {
 		super(message);
 		this.message = message;
 	}
@@ -39,7 +43,7 @@ public abstract class AbstractException extends Exception {
 	 * @param message 提示信息
 	 * @param cause 异常实例
 	 */
-	public AbstractException(String message, Throwable cause) {
+	public ExceptionAbs(String message, Throwable cause) {
 		super(message, cause);
 		this.message = message;
 	}
@@ -48,7 +52,7 @@ public abstract class AbstractException extends Exception {
 	 * 构造函数 
 	 * @param cause 异常实例
 	 */
-	public AbstractException(Throwable cause) {
+	public ExceptionAbs(Throwable cause) {
 		super(cause);
 	}
 
@@ -59,7 +63,7 @@ public abstract class AbstractException extends Exception {
 	 * @param enableSuppression
 	 * @param writableStackTrace
 	 */
-	protected AbstractException(String message, Throwable cause,
+	protected ExceptionAbs(String message, Throwable cause,
 			boolean enableSuppression,
 			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
