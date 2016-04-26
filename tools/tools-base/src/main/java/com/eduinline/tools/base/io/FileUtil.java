@@ -38,27 +38,37 @@ public class FileUtil {
 		return File.listRoots();
 	}
 	
-	/**
-	 * 把File对象转换成结构树形式的FileDto对象
-	 * @param file 文件对象
-	 * @return FileDto
-	 */
-	public static FileDto fileToDto(File file){
-		FileDto baseFileDto  = toDto(file);
-		File[] files = file.listFiles();
-		for (File currentFile : files) {
-			FileDto currentDto = toDto(currentFile);
-			baseFileDto.getChildren().add(currentDto);
+	public static FileDto fileToDto(File file, boolean includeChild){
+		if(includeChild){
+			FileDto baseDto = toDto(file);
+			return toDto(file, baseDto);
 		}
-		return baseFileDto;
+		return toDto(file);
 	}
 	
 	/**
-	 * 把File对象转换成结构树形式的FileDto对象
+	 * 把File对象转换成FileDto对象，重点在转换子目录和文件
 	 * @param file 文件对象
 	 * @return FileDto
 	 */
-	public static FileDto toDto(File file){
+	private static FileDto toDto(File file, FileDto baseDto){
+		File[] files = file.listFiles();
+		for (File currentFile : files) {
+			FileDto currentDto = toDto(currentFile);
+			baseDto.getChildren().add(currentDto);
+			if(currentFile.isDirectory()){
+				toDto(currentFile, currentDto);
+			}
+		}
+		return baseDto;
+	}
+	
+	/**
+	 * 把File对象转换成FileDto对象，不转换子目录和文件
+	 * @param file 文件对象
+	 * @return FileDto
+	 */
+	private static FileDto toDto(File file){
 		FileDto fileDto  = new FileDto();
 		fileDto.setCanRead(file.canRead());
 		fileDto.setCanWrite(file.canWrite());
