@@ -1,6 +1,7 @@
 package com.eduinline.tools.base.io;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * <p>com.helizfamily.tools.base.io.FileUtil.java</p>
@@ -14,19 +15,76 @@ import java.io.File;
  */
 public class FileUtil {
 	
+	/** 默认文件名称分隔符,window下是'\' */
+	public static final String FILE_SEPARATOR = File.separator;
+	
+	/** 默认名称路径分隔符,window下是';' */
+	public static final String FILE_PATH_SEPARATOR = File.pathSeparator;
+	
+	public static void main(String[] args) {
+		System.out.println(new File("E:\\Hehz\\1.开发环境").listFiles().length);
+	}
+	
 	/**
-	 * 列出当前系统可用的文件盘。比如Window系统的C、D、E、F、G盘。<br>
-	 * "绝对路径："+file.getAbsolutePath()=C:\ <br>
-	 * "总容量："+file.getTotalSpace()得到容量的字节数 <br>
-	 * "空闲容量："+file.getFreeSpace()得到容量的字节数 <br>
-	 * "可用容量："+file.getFreeSpace()得到容量的字节数 <br>
-	 * "已用容量："+(file.getTotalSpace()-file.getFreeSpace())得到容量的字节数 <br>
+	 * 列出当前系统可用的文件盘。比如Window系统的C、D、E、F、G盘。<p>
+	 * "绝对路径："+file.getAbsolutePath()=C:\ <p>
+	 * "总容量："+file.getTotalSpace()得到容量的字节数 <p>
+	 * "空闲容量："+file.getFreeSpace()得到容量的字节数 <p>
+	 * "可用容量："+file.getFreeSpace()得到容量的字节数 <p>
+	 * "已用容量："+(file.getTotalSpace()-file.getFreeSpace())得到容量的字节数 <p>
 	 * @return 文件系统根数组
 	 */
 	public static File[] getRootsFile(){
 		return File.listRoots();
 	}
 	
+	/**
+	 * 把File对象转换成结构树形式的FileDto对象
+	 * @param file 文件对象
+	 * @return FileDto
+	 */
+	public static FileDto fileToDto(File file){
+		FileDto baseFileDto  = toDto(file);
+		File[] files = file.listFiles();
+		for (File currentFile : files) {
+			FileDto currentDto = toDto(currentFile);
+			baseFileDto.getChildren().add(currentDto);
+		}
+		return baseFileDto;
+	}
+	
+	/**
+	 * 把File对象转换成结构树形式的FileDto对象
+	 * @param file 文件对象
+	 * @return FileDto
+	 */
+	public static FileDto toDto(File file){
+		FileDto fileDto  = new FileDto();
+		fileDto.setCanRead(file.canRead());
+		fileDto.setCanWrite(file.canWrite());
+		fileDto.setAbsolutePath(file.getAbsolutePath());
+		fileDto.setTotalSpace(file.getTotalSpace());
+		fileDto.setFreeSpace(file.getFreeSpace());
+		fileDto.setParent(file.getParent());
+		fileDto.setDirectory(file.isDirectory());
+		fileDto.setFile(file.isFile());
+		fileDto.setHidden(file.isHidden());
+		return fileDto;
+	}
+	
+	/**
+	 * 读文件之前，判断其是否存在和可读
+	 * @param file 文件对象
+	 * @return true=可读
+	 * @throws IOException
+	 */
+	private boolean checkFileBeforeRead(File file) throws IOException{
+		if(!file.exists())
+			throw new IOException("文件不存在："+file.getName());
+		if(!file.canRead())
+			throw new IOException("文件不可读："+file.getName());
+		return true;
+	}
 	
 }
 
