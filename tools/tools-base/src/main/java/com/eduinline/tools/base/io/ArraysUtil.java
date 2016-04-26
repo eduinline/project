@@ -10,7 +10,7 @@ package com.eduinline.tools.base.io;
  * 流式处理的类有：ByteArrayInputStream、ByteArrayOutputStream
  * 字符式处理的类有：CharArrayReader和CharArrayWriter
  */
-public class IOArraysUtil {
+public class ArraysUtil {
 	
 }
 

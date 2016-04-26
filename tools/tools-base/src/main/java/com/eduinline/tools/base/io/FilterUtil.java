@@ -10,7 +10,7 @@ package com.eduinline.tools.base.io;
  * 流式处理的类有：FilterInputStream、FilterOutputStream
  * 字符式处理的类有：FilterReader和FilterWriter
  */
-public class IOFilterUtil {
+public class FilterUtil {
 
 }
 

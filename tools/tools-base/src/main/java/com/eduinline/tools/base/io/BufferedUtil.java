@@ -10,7 +10,7 @@ package com.eduinline.tools.base.io;
  * 流式处理的类有：BufferedInputStream、BufferedOutputStream
  * 字符式处理的类有：BufferedReader和BufferedWriter
  */
-public class IOBufferedUtil {
+public class BufferedUtil {
 	
 }
 
