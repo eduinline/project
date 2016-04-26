@@ -9,7 +9,15 @@
 	<modules>
 		<module>tools-base</module>
 	</modules>
-
+	
+	<developers>
+		<developer>
+			<organization>eduinline.com</organization>
+			<name>hongze.he</name>
+			<email>hongze.he@eduinline.com</email>
+		</developer>
+	</developers>
+	
 	<!-- 定义公共属性，方便子模块公用 -->
 	<properties>
 		<project.encoding>UTF-8</project.encoding>

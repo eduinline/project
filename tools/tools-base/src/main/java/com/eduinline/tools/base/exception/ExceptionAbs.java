@@ -70,7 +70,6 @@ public abstract class ExceptionAbs extends Exception {
 		this.message = message;
 	}
 
-
 	/**
 	 * getMessageForUser(抽象方法，用于子类返回用户看的信息)
 	 * @return
