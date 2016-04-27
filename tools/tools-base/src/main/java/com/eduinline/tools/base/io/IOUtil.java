@@ -1,12 +1,5 @@
 package com.eduinline.tools.base.io;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-
 /**
  * <p>com.helizfamily.tools.base.io.IOUtil.java</p>
  *

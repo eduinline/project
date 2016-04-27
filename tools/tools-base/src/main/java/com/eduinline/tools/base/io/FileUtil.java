@@ -33,10 +33,6 @@ public class FileUtil {
 	/** 默认名称路径分隔符,window下是';' */
 	public static final String FILE_PATH_SEPARATOR = File.pathSeparator;
 
-	public static void main(String[] args) {
-		System.out.println(appendToFile(new File("D:\\hell\\hell1\\he.txt"), "kldsjfsjl"));
-	}
-
 	/**
 	 * 列出当前系统可用的文件盘。比如Window系统的C、D、E、F、G盘。<p>
 	 * @return 文件系统根数组
