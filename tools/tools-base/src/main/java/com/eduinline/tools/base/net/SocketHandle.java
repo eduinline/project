@@ -46,9 +46,9 @@ public abstract class SocketHandle extends SocketAbs implements Runnable {
 	 */
 	private void handleAccept() throws IOException{
 		byte[] receiveData = receiveData();
-		if(null!=receiveData){
+		if(null!=receiveData && receiveData.length>0){
 			byte[] sendData = handle(receiveData);
-			if(null!=sendData)
+			if(null!=sendData && sendData.length>0)
 				sendData(sendData);
 		}
 	}

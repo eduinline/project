@@ -5,8 +5,6 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.io.PipedReader;
 import java.io.PipedWriter;
-import java.util.Queue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +18,7 @@ import org.slf4j.LoggerFactory;
  * 	<li>3.提供了包括基于字节流的通信(PipedInputStream和PipedOutputStream)和
  * 		基于字符的通信(PipedReader和PipedWriter)
  * 	</li>
+ * 	<li>TODO </li>
  * </ul>
  *
  * @author hongze.he@eduinline.com
@@ -36,18 +35,10 @@ public class PipedUtil {
 	private PipedReader pr = new PipedReader();
 	/** 基于字符的写通道 */
 	private PipedWriter pw = new PipedWriter();
-	/** 是否读取数据，默认true */
-	private boolean read = true;
-	/** 是否写入数据，默认true */
-	private boolean write = true;
 	/** 进行对接的管道对象 */
 	private PipedUtil toConnectPiped;
 	/** 接收管道数据的处理器，启用独立线程处理，避免单线程读写管道造成死锁 */
 	private PipedReceiveHandle pipedReceiveHandle;
-	/** 写入线程池,存放需要发送的二进制数据信息 */
-	private Queue<byte[]> byteWriteQueue = new LinkedBlockingQueue<byte[]>();
-	/** 写入线程池,存放需要发送的字符数据信息 */
-	private Queue<char[]> charWriteQueue = new LinkedBlockingQueue<char[]>();
 
 	public static void main(String[] args) throws InterruptedException {
 		PipedUtil p1 = new PipedUtil();
@@ -60,7 +51,7 @@ public class PipedUtil {
 			
 			@Override
 			public void handleByte(byte[] receiveData) {
-				System.out.println("来自p2:"+"接收到字节数据啦。。。。");
+				System.out.println("来自p2:"+new String(receiveData));
 			}
 		});
 		p2.setPipedReceiveHandle(new PipedReceiveHandle() {
@@ -78,8 +69,7 @@ public class PipedUtil {
 		p2.setToConnectPiped(p1);
 		p2.connect();
 		p1.connect();
-		System.out.println("p2发送数据"+p2.sendCharData("hello11111"));
-		System.out.println("p2发送数据"+p2.sendCharData("hello22222"));
+		p2.sendByteData("p2-1".getBytes());
 	}
 
 	/**
@@ -90,13 +80,9 @@ public class PipedUtil {
 			//1.启动发送方的发送处理线程
 			pos.connect(toConnectPiped.getPis());
 			pw.connect(toConnectPiped.getPr());
-			new Thread(new ByteSendHandle()).start();
-			new Thread(new CharSendHandle()).start();
 			//2.启动接收方的接收处理线程
 			toConnectPiped.startListener();
 			logger.info("管道连接成功");
-			this.setRead(true);
-			this.setWrite(true);
 			return true;
 		}catch(IOException e){
 			logger.error("管道连接异常", e);
@@ -139,8 +125,6 @@ public class PipedUtil {
 					toConnectPiped.getPr().close();
 			}
 			logger.info("管道销毁成功");
-			this.setRead(false);
-			this.setWrite(false);
 			return true;
 		}catch(IOException e){
 			logger.error("管道销毁异常", e);
@@ -154,15 +138,19 @@ public class PipedUtil {
 	 * @return true=成功，否则失败
 	 */
 	public final boolean sendByteData(byte[] sendData){
-		if(null==sendData || sendData.length == 0)
+		try{
+			if(null==sendData || sendData.length == 0)
+				return true;
+			int dataLen = sendData.length;
+			byte[] lenByte = intToByte(dataLen);
+			pos.write(lenByte);
+			pos.write(sendData);
+			pos.flush();
 			return true;
-		int dataLen = sendData.length;
-		byte[] lenByte = intToByte(dataLen);
-		int byteLen = lenByte.length;
-		byte[] data = new byte[byteLen+dataLen];
-		System.arraycopy(lenByte, 0, data, 0, byteLen);
-		System.arraycopy(sendData, 0, data, byteLen, dataLen);
-		return byteWriteQueue.offer(data);
+		}catch(IOException e){
+			logger.error("发送字节数据异常", e);
+			return false;
+		}
 	}
 
 	/**
@@ -180,70 +168,18 @@ public class PipedUtil {
 	 * @return true=成功，否则失败
 	 */
 	public final boolean sendCharData(char[] sendData){
-		if(null==sendData || sendData.length == 0)
+		try{
+			if(null==sendData || sendData.length == 0)
+				return true;
+			int dataLen = sendData.length;
+			char[] lenByte = intToChar(dataLen);
+			pw.write(lenByte);
+			pw.write(sendData);
+			pw.flush();
 			return true;
-		int dataLen = sendData.length;
-		char[] lenByte = intToChar(dataLen);
-		int byteLen = lenByte.length;
-		char[] data = new char[byteLen+dataLen];
-		System.arraycopy(lenByte, 0, data, 0, byteLen);
-		System.arraycopy(sendData, 0, data, byteLen, dataLen);
-		return charWriteQueue.offer(data);
-	}
-	
-	/**
-	 * <p>监听发送字节流的线程</p>
-	 */
-	class ByteSendHandle implements Runnable{
-		@Override
-		public void run() {
-			while(true){
-				//启动写入才处理写入的数据，否则停止线程
-				if(isWrite()){
-					byte[] data = null;
-					try{
-						if(byteWriteQueue.isEmpty()){
-							
-						}else{
-							data = byteWriteQueue.poll();
-							pos.write(data);
-							pos.flush();
-						}
-					}catch(Exception e){
-						logger.error("处理接收的字符数据异常:data="+String.valueOf(data), e);
-					}
-				}else{
-					break;
-				}
-			}
-		}
-	}
-	
-	/**
-	 * <p>监听发送字符的线程</p>
-	 */
-	class CharSendHandle implements Runnable{
-		@Override
-		public void run() {
-			while(true){
-				//启动写入才处理写入的数据，否则停止线程
-				if(isWrite()){
-					char[] data = null;
-					try{
-						if(charWriteQueue.isEmpty()){
-							
-						}else{
-							data = charWriteQueue.poll();
-							pw.write(data);
-							pw.flush();
-						}
-					}catch(Exception e){
-						logger.error("发送字符数据异常:data="+String.valueOf(data), e);
-					}
-				}else{
-					break;
-				}
-			}
+		}catch(IOException e){
+			logger.error("发送字符数据异常", e);
+			return false;
 		}
 	}
 	
@@ -252,34 +188,24 @@ public class PipedUtil {
 	 */
 	class ByteReceiveHandle implements Runnable{
 		byte[] byteTempData = new byte[4];
-		int byteHandleCount = 1;
 		@Override
 		public void run() {
 			while(true){
-				//启动监听才处理接收的数据，否则停止线程
-				if(isRead()){
-					try{
-						int len = 0;
-						if(pis.read(byteTempData)!=-1){
-							len = byteToInt(byteTempData);
-							byte[] receiveData = new byte[len];
-							while(pis.read(receiveData)!=-1){
-								break;
-							}
-							PipedReceiveHandle handle= 
-									pipedReceiveHandle.getClass().newInstance();
-							handle.setReceiveData(receiveData);
-							new Thread(handle).start();
-							logger.info("成功处理数据次数："+byteHandleCount);
-							byteHandleCount++;
+				try{
+					int len = 0;
+					if(pis.read(byteTempData)!=-1){
+						len = byteToInt(byteTempData);
+						byte[] receiveData = new byte[len];
+						while(pis.read(receiveData)!=-1){
+							break;
 						}
-					}catch(Exception e){
-						setRead(false);
-						logger.error("处理接收的字节数据异常", e);
-						break;
+						PipedReceiveHandle handle= 
+								pipedReceiveHandle.getClass().newInstance();
+						handle.setReceiveData(receiveData);
+						new Thread(handle).start();
 					}
-				}else{
-					byteHandleCount = 1;
+				}catch(Exception e){
+					logger.error("处理接收的字节数据异常", e);
 					break;
 				}
 			}
@@ -291,34 +217,24 @@ public class PipedUtil {
 	 */
 	class CharReceiveHandle implements Runnable{
 		char[] charTempData = new char[2];
-		int charHandleCount = 1;
 		@Override
 		public void run() {
 			while(true){
-				//启动监听才处理接收的数据，否则停止线程
-				if(isRead()){
-					try{
-						int len = 0;
-						if(pr.read(charTempData)!=-1){
-							len = charToInt(charTempData);
-							char[] receiveData = new char[len];
-							while(pr.read(receiveData)!=-1){
-								break;
-							}
-							PipedReceiveHandle handle= 
-									pipedReceiveHandle.getClass().newInstance();
-							handle.setReceiveData(receiveData);
-							new Thread(handle).start();
-							logger.info("成功处理字符数据次数："+charHandleCount);
-							charHandleCount++;
+				try{
+					int len = 0;
+					if(pr.read(charTempData)!=-1){
+						len = charToInt(charTempData);
+						char[] receiveData = new char[len];
+						while(pr.read(receiveData)!=-1){
+							break;
 						}
-					}catch(Exception e){
-						setRead(false);
-						logger.error("处理接收的字符数据异常", e);
-						break;
+						PipedReceiveHandle handle= 
+								pipedReceiveHandle.getClass().newInstance();
+						handle.setReceiveData(receiveData);
+						new Thread(handle).start();
 					}
-				}else{
-					charHandleCount = 1;
+				}catch(Exception e){
+					logger.error("处理接收的字符数据异常", e);
 					break;
 				}
 			}
@@ -433,34 +349,6 @@ public class PipedUtil {
 	}
 	
 	/**
-	 * @return the read
-	 */
-	public boolean isRead() {
-		return read;
-	}
-
-	/**
-	 * @param read the read to set
-	 */
-	public void setRead(boolean read) {
-		this.read = read;
-	}
-	
-	/**
-	 * @return the write
-	 */
-	public boolean isWrite() {
-		return write;
-	}
-
-	/**
-	 * @param write the write to set
-	 */
-	public void setWrite(boolean write) {
-		this.write = write;
-	}
-
-	/**
 	 * @return the toConnectPiped
 	 */
 	public PipedUtil getToConnectPiped() {
@@ -485,20 +373,6 @@ public class PipedUtil {
 	 */
 	public void setPipedReceiveHandle(PipedReceiveHandle pipedReceiveHandle) {
 		this.pipedReceiveHandle = pipedReceiveHandle;
-	}
-
-	/**
-	 * @return the byteWriteQueue
-	 */
-	public Queue<byte[]> getByteWriteQueue() {
-		return byteWriteQueue;
-	}
-
-	/**
-	 * @return the charWriteQueue
-	 */
-	public Queue<char[]> getCharWriteQueue() {
-		return charWriteQueue;
 	}
 
 }
