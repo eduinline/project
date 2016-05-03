@@ -20,8 +20,8 @@ import org.slf4j.LoggerFactory;
  * 	<li>字符文件处理的类有：FileReader和FileWriter</li>
  * </ul>
  *
- * @author helizfamily helizfamily@qq.com
- * @version 1.0 2016年3月10日-下午3:44:05
+ * @author hongze.he@eduinline.com
+ * @version 1.0 2016年4月26日-下午9:41:39
  */
 public class FileUtil {
 	/** 日志对象 */
@@ -56,7 +56,7 @@ public class FileUtil {
 	 * @param filterRegex 需要过滤的文件名正则，在includeChild=true下有效，设置为null或空则不进行过滤
 	 * @return 转换后得到的FileDto
 	 */
-	public static FileDto fileToDto(File file, boolean includeChild, String filterRegex){
+	public static FileDto fileToDto(File file, boolean includeChild, final String filterRegex){
 		if(includeChild){
 			FileDto baseDto = toDto(file);
 			FilenameFilter filter = null;
