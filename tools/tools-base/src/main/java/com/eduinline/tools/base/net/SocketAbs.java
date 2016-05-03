@@ -84,6 +84,7 @@ public abstract class SocketAbs extends SocketBase{
 			}
 			return receiveData;
 		}catch(IOException e){
+			this.setKeepOnLine(false);
 			logger.error(logMessage(RECEIVE), e);
 			return new byte[0];
 		}

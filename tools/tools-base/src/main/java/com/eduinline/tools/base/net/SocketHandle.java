@@ -32,11 +32,7 @@ public abstract class SocketHandle extends SocketAbs implements Runnable {
 		}catch(IOException e){
 			logger.error("Socket处理异常", e);
 		}finally {
-			try {
-				socket.close();
-			} catch (IOException e) {
-				logger.error("关闭Socket异常", e);
-			}
+			this.close();
 		}
 	}
 	
