@@ -8,20 +8,19 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
 /**
- * <p>com.helizfamily.tools.base.nio.FileChannelUtil.java</p>
- *
- * @author helizfamily helizfamily@qq.com
- * @version 1.0 2016年3月9日-下午4:03:54
- * @modifyed helizfamily helizfamily@qq.com
- * @purpose NIO文件通道工具类。不能将FileChannel与Selector一起使用，因为FileChannel不能切换到非阻塞模式<br>
- * 流程：Channel-->Buffer-->Channel
- * 特点1Channels and Buffers：标准的IO基于字节流和字符流进行操作的，而NIO是基于通道（Channel）和缓冲区（Buffer）进行操作，
- * 数据总是从通道读取到缓冲区中，或者从缓冲区写入到通道中。<br>
+ * <p>NIO文件通道工具类。不能将FileChannel与Selector一起使用，因为FileChannel不能切换到非阻塞模式</p>
+ * <ul>
+ * 	<li>流程：Channel-->Buffer-->Channel</li>
+ * 	<li>特点1Channels and Buffers：标准的IO基于字节流和字符流进行操作的，而NIO是基于通道（Channel）和缓冲区（Buffer）进行操作，
+ * 		数据总是从通道读取到缓冲区中，或者从缓冲区写入到通道中。</li>
  * 
- * 特点2Non-blocking IO：NIO可以让你非阻塞的使用IO，例如：当线程从通道读取数据到缓冲区时，线程还是可以进行其他事情。
- * 当数据被写入到缓冲区时，线程可以继续处理它。从缓冲区写入通道也类似。
+ * 	<li>特点2Non-blocking IO：NIO可以让你非阻塞的使用IO，例如：当线程从通道读取数据到缓冲区时，线程还是可以进行其他事情。
+ * 		当数据被写入到缓冲区时，线程可以继续处理它。从缓冲区写入通道也类似。</li>
  * 
- * 特点3Selectors：NIO引入了选择器的概念，选择器用于监听多个通道的事件（比如：连接打开，数据到达）。因此，单个的线程可以监听多个数据通道。
+ * 	<li>特点3Selectors：NIO引入了选择器的概念，选择器用于监听多个通道的事件（比如：连接打开，数据到达）。因此，单个的线程可以监听多个数据通道。</li>
+ * </ul>
+ * @author hongze.he@eduinline.com
+ * @version 1.0 2016年4月26日-下午9:41:39
  */
 public class FileChannelUtil {
 	
