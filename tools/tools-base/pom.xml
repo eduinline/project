@@ -9,7 +9,6 @@
 
 	<artifactId>tools-base</artifactId>
 	<name>tools-base</name>
-	<version>${tools.base.version}</version>
 
 	<dependencies>
 	

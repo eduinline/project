@@ -57,10 +57,15 @@
 	<!-- 插件提交的仓库地址 -->
 	<distributionManagement>
 		<repository>
-			<id>Snapshots</id>
-			<name>Internal Snapshots</name>
-			<url>http://10.101.199.13:8081/artifactory/libs-snapshots-local</url>
+			<id>releases</id>
+			<name>Releases</name>
+			<url>http://127.0.0.1:8081/nexus/content/repositories/releases/</url>
 		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>Snapshots</name>
+			<url>http://127.0.0.1:8081/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
 	</distributionManagement>
 
 </project>
