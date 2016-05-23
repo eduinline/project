@@ -1,0 +1,35 @@
+package com.eduinline.tools.generator;
+
+import cn.org.rapid_framework.generator.GeneratorFacade;
+
+/**
+ * <p>模板生成器入口</p>
+ * 
+ * @version 1.0 2016年5月23日-下午3:52:46
+ * @author hongze.he@eduinline.com
+ */
+public class GenerateCode {
+
+	/**
+	 * @param args
+	 * @throws Exception 
+	 */
+	public static void main(String[] args) throws Exception {
+		GeneratorFacade g = new GeneratorFacade();		
+//		g.getGenerator().addTemplateRootDir("classpath:generator/template/rapid/table");
+//		System.out.println(GeneratorTestHelper.generateByTable(g, "DEMO_USERINFO"));
+		
+//		g.printAllTableNames();				//打印数据库中的表名称
+		
+		g.deleteOutRootDir();							//删除生成器的输出目录
+		g.generateByTable("EF_DOCS_DETAIL","src/main/resources/template" );
+//		g.generateByTable("DEMO_USERINFO");	//通过数据库表生成文件,注意: oracle 需要指定schema及注意表名的大小写.
+//		g.generateByTable("table_name","TableName");	//通过数据库表生成文件,并可以自定义类名
+//		g.generateByAllTable();				//自动搜索数据库中的所有表并生成文件
+//		g.generateByClass(Blog.class);
+		
+		//打开文件夹
+		//Runtime.getRuntime().exec("cmd.exe /c start D:\\webapp-generator-output");
+	}
+
+}
