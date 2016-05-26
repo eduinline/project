@@ -7,7 +7,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 
 <#macro mapperEl value>${r"#{"}${value}}</#macro>
-<#macro namespace>${packagePath}.${className}</#macro>
+<#macro namespace>${basePackage}.${oneDomain}.entities.${twoDomain}.${className}</#macro>
 
 <!-- 不使用namespace的话sql搜索定位会比较方便 -->
 <mapper namespace="<@namespace/>">
@@ -38,13 +38,13 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
         </#list>        
         )
     ]]>
-		<!--	
-			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
-			DB2: order="BEFORE"" values nextval for sequenceName
+	<!--	
+		oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+		DB2: order="BEFORE"" values nextval for sequenceName
 		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
 			SELECT sequenceName.nextval AS ID FROM DUAL 
         </selectKey>
-		-->
+	-->
 	</insert>
     
 	<update id="update" >
@@ -85,14 +85,14 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		<where>	      				
 	       <#list table.columns as column>
 	       <#if column.isDateTimeColumn>
-	       <if test="@com.csair.udp.common.utils.Ognl@isNotEmpty(${column.columnNameFirstLower}Begin)">
+	       <if test="@common.util.Ognl@isNotEmpty(${column.columnNameFirstLower}Begin)">
 				AND ${column.sqlName} >= <@mapperEl column.columnNameFirstLower+"Begin"/>
 		   </if>
-		   <if test="@com.csair.udp.common.utils.Ognl@isNotEmpty(${column.columnNameFirstLower}End)">
+		   <if test="@common.util.Ognl@isNotEmpty(${column.columnNameFirstLower}End)">
 				AND ${column.sqlName} &lt;= <@mapperEl column.columnNameFirstLower+"End"/>
 		   </if>
 	       <#else>
-	       <if test="@com.csair.udp.common.utils.Ognl@isNotEmpty(${column.columnNameFirstLower})">
+	       <if test="@common.util.Ognl@isNotEmpty(${column.columnNameFirstLower})">
 				AND ${column.sqlName} = <@mapperEl column.columnNameFirstLower/>
 			</if>
 	       </#if>
@@ -114,7 +114,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	    FROM ${table.sqlName} 
 		<include refid="findPage_where"/>
 		
-		<if test="@com.csair.udp.common.utils.Ognl@isNotEmpty(sortColumns)">
+		<if test="@common.util.Ognl@isNotEmpty(sortColumns)">
 			ORDER BY <@jspEl 'sortColumns'/>
 		</if>
     </select>

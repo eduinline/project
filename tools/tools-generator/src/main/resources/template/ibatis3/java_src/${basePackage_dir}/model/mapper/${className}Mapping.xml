@@ -1,0 +1,22 @@
+<#include "/macro.include"/>
+<#assign className = table.className>   
+<#assign classNameFirstLower = table.classNameFirstLower>
+<#assign id = ''>   
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 存放手写的sql -->
+<mapper namespace="com.airsky.usp.${oneDomain}.repository.${twoDomain}.${className}Mapper">
+
+	<delete id="batchDelete">
+		 <![CDATA[
+	        DELETE FROM ${table.sqlName} WHERE ID in
+	    ]]>
+	    <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+	    	
+		</foreach>
+	</delete>
+	
+</mapper>

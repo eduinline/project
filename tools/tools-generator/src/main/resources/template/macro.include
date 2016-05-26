@@ -6,6 +6,7 @@
 <#-- 生成java构造函数 -->
 <#macro generateConstructor constructor>
 	public ${constructor}(){
+	
 	}
 
 	public ${constructor}(
