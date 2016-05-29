@@ -113,10 +113,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     	SELECT <include refid="columns" />
 	    FROM ${table.sqlName} 
 		<include refid="findPage_where"/>
-		
-		<if test="@common.util.Ognl@isNotEmpty(sortColumns)">
-			ORDER BY <@jspEl 'sortColumns'/>
-		</if>
+		ORDER BY CREATED_TIME DESC
     </select>
 
     <#list table.columns as column>

@@ -2,6 +2,7 @@
 <#assign classNameLower = className?uncap_first>
 package ${basePackage}.${oneDomain}.${twoDomain}.controller;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,11 +32,8 @@ public class ${className}Controller extends BaseCRUDController<${className}, ${t
 	@Override
 	protected boolean beforeSave(${className} m) {
 		super.beforeSave(m);
-		if (Ognl.isEmpty(m.getUsername())) {
-			throw new ServiceException(USER_NAME_NOT_NULL);
-		}
 		m.setCreatedBy("admin");
-		m.setCreatedDate(new Date());
+		m.setCreatedTime(new Timestamp(System.currentTimeMillis()));
 		return Boolean.TRUE;
 	}
 	

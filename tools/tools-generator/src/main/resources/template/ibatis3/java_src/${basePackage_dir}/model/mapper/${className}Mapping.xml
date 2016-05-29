@@ -1,7 +1,7 @@
 <#include "/macro.include"/>
 <#assign className = table.className>   
 <#assign classNameFirstLower = table.classNameFirstLower>
-<#assign id = ''>   
+<#assign item = '#{item}'>   
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
 PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
@@ -15,7 +15,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	        DELETE FROM ${table.sqlName} WHERE ID in
 	    ]]>
 	    <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
-	    	
+	    	#{item}
 		</foreach>
 	</delete>
 	
