@@ -1,11 +1,12 @@
-<form class="form-horizontal" role="form" id="editForm" action="/${oneDomain}/${twoDomain}/\$\{op\}">
-	<input type="hidden" name="id" value="\$\{m.id\}">
+<#macro mapperEl1 value>${r"${"}${value}}</#macro>
+<form class="form-horizontal" role="form" id="editForm" action="/${oneDomain}/${twoDomain}/<@mapperEl1 'op'/>">
+	<input type="hidden" name="id" value="<@mapperEl1 'm.id'/>">
 	<div class="col-md-12">
 		<#list table.columns as column>
 		<div class="form-group">
 			<label class="col-md-3 control-label no-padding-right" for="_${column.columnNameLower}">${column.columnAlias}</label>
 			<div class="col-md-6">
-				<input type="text" id="_${column.columnNameLower}" name="${column.columnNameLower}" value="\$\{m.${column.columnNameLower}\}" class="form-control" />
+				<input type="text" id="_${column.columnNameLower}" name="${column.columnNameLower}" value="<@mapperEl1 'm.'+column.columnNameLower/>" class="form-control" />
 			</div>
 		</div>
 		</#list>

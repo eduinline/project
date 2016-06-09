@@ -1,10 +1,9 @@
 <#assign className = table.className>   
 <#assign classNameLower = className?uncap_first>
-package ${basePackage}.${oneDomain}.${twoDomain}.controller;
+package ${basePackage}.controller.${oneDomain}.${twoDomain};
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.airsky.usp.common.controller.BaseCRUDController;
-import com.airsky.usp.${oneDomain}.${twoDomain}.controller.errorcode.I${className}ControllerError;
-import com.airsky.usp.${oneDomain}.entities.${twoDomain}.${className};
-import com.airsky.usp.${oneDomain}.service.${twoDomain}.I${className}Service;
-
-import common.exception.ApplicationException;
-import common.exception.ServiceException;
-import common.util.Ognl;
+import com.airsky.usp.controller.common.BaseCRUDController;
+import com.airsky.usp.controller.${oneDomain}.${twoDomain}.errorcode.I${className}ControllerError;
+import com.airsky.usp.entities.${oneDomain}.${twoDomain}.${className};
+import com.airsky.usp.service.${oneDomain}.${twoDomain}.I${className}Service;
+import com.framework.common.exception.ApplicationException;
 
 @Controller
 @RequestMapping("${oneDomain}/${twoDomain}")
@@ -32,7 +28,9 @@ public class ${className}Controller extends BaseCRUDController<${className}, ${t
 	@Override
 	protected boolean beforeSave(${className} m) {
 		super.beforeSave(m);
-		m.setCreatedBy("admin");
+		if(!${classNameLower}Service.checkUnique(m))
+			throw new ApplicationException(SAVE_ERR_CODE_RUNTITME);
+		m.setCreatedBy(getUserId());
 		m.setCreatedTime(new Timestamp(System.currentTimeMillis()));
 		return Boolean.TRUE;
 	}
@@ -40,6 +38,8 @@ public class ${className}Controller extends BaseCRUDController<${className}, ${t
 	@Override
 	protected boolean beforeUpdate(${className} m) {
 		super.beforeUpdate(m);
+		if(!${classNameLower}Service.checkUnique(m))
+			throw new ApplicationException(SAVE_ERR_CODE_RUNTITME);
 		return Boolean.TRUE;
 	}
 	
@@ -51,14 +51,14 @@ public class ${className}Controller extends BaseCRUDController<${className}, ${t
 	
 	@ResponseBody
 	@RequestMapping(value = "/batchDelete")
-	public void batchDelete(String userIdStr) {
+	public void batchDelete(String ids) {
 		try {
-			List<Integer> userIdList = new ArrayList<Integer>();
-			String[] userIds = userIdStr.split(",");
-			for (String userId : userIds) {
-				userIdList.add(Integer.valueOf(userId));
+			List<Integer> idsList = new ArrayList<Integer>();
+			String[] idsArr = ids.split(",");
+			for (String id : idsArr) {
+				idsList.add(Integer.valueOf(id));
 			}
-			${classNameLower}Service.batchDelete(userIdList);
+			${classNameLower}Service.batchDelete(idsList);
 		} catch(Exception ex) {
 			throw new ApplicationException(DELETE_ERR_CODE_RUNTITME, ex);
 		}

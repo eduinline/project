@@ -1,6 +1,6 @@
 <#assign className = table.className>   
 <#assign classNameLower = className?uncap_first>
-package ${basePackage}.${oneDomain}.${twoDomain}.controller.errorcode;
+package ${basePackage}.controller.${oneDomain}.${twoDomain}.errorcode;
 
 public interface I${className}ControllerError {
 	

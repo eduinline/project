@@ -1,6 +1,8 @@
 <#assign className = table.className>   
 <#assign classNameLower = className?uncap_first>
-<script src="\$\{basePath\}/js/${oneDomain}/${twoDomain}/${twoDomain}.js"></script>
+<#macro mapperEl value>${r"#"}${value}</#macro>
+<#macro mapperEl1 value>${r"${"}${value}}</#macro>
+<#macro mapperEl2 value>${r"@"}${value}</#macro>
 <form id="queryForm" action="/${oneDomain}/${twoDomain}/page">
 <div class="page-content">
 	<div class="widget-box">
@@ -8,11 +10,11 @@
 			<div class="widget-main">
 				<#list table.columns as column>
 					<label for="_search_${column.columnNameLower}" style="font-size: 13px;">${column.columnAlias}</label>
-						<input type="text" class="input-medium" id="_search_${column.columnNameLower}" name="${column.columnNameLower}" value="\$\{search.filter.${column.columnNameLower}\}" style="margin-right: 10px;"/>
+					<input type="text" class="input-medium" id="_search_${column.columnNameLower}" name="${column.columnNameLower}" value="<@mapperEl1 'search.filter.'+column.columnNameFirstLower/>" style="margin-right: 10px;"/>
 				</#list>
 					<button type="button" class="btn btn-primary btn-sm" style="margin-right: 10px;" onclick="javascript:query.trigger();"><i class="fa fa-search"></i>Search</button>
 					<button type="button" class="btn btn-success btn-sm" onclick="crud.add();"><i class="fa fa-edit"></i>Add</button>
-					<button type="button" class="btn btn-default btn-sm" onclick="users.batchDelete();"><i class="fa fa-remove"></i>删除</button>
+					<button type="button" class="btn btn-default btn-sm" onclick="crud.batchDelete('${twoDomain}');"><i class="fa fa-remove"></i>删除</button>
 			</div>
 		</div>
 	</div>
@@ -30,35 +32,36 @@
 						</tr>
 					</thead>
 					<tbody>
-						<\#list search.page.result as obj>
+						<<@mapperEl 'list'/> search.page.result as obj>
 							<tr>
-								<td><label><input type="checkbox" class="ace" value="${(obj.id)!}" name="${twoDomain}_ck"/> <span class="lbl"></span></label></td>
+								<td><label><input type="checkbox" class="ace" value="<@mapperEl1 'obj.id'/>" name="${twoDomain}_ck"/> <span class="lbl"></span></label></td>
 								<#list table.columns as column>
-								<td style="vertical-align:middle;">\$\{(obj.${column.columnNameLower})!\}</td>
+								<td style="vertical-align:middle;"><@mapperEl1 '(obj.'+column.columnNameFirstLower+')!'/></td>
 								</#list>
 								<td>
 									<div class="hidden-sm hidden-xs btn-group">
-										<button type="button" class="btn btn-xs btn-primary" onclick="crud.view(\$\{obj.id\});"><i class="ace-icon fa fa-eye bigger-120"></i></button>
-										<button type="button" class="btn btn-xs btn-info" onclick="crud.update(\$\{obj.id\});"><i class="ace-icon fa fa-edit bigger-120"></i></button>
-										<button type="button" class="btn btn-xs btn-danger" onclick="crud.del(\$\{obj.id\});"><i class="ace-icon fa fa-trash-o bigger-120"></i></button>
+										<button type="button" class="btn btn-xs btn-primary" onclick="crud.view(<@mapperEl1 'obj.id'/>);"><i class="ace-icon fa fa-eye bigger-120"></i></button>
+										<button type="button" class="btn btn-xs btn-info" onclick="crud.update(<@mapperEl1 'obj.id'/>);"><i class="ace-icon fa fa-edit bigger-120"></i></button>
+										<button type="button" class="btn btn-xs btn-danger" onclick="crud.del(<@mapperEl1 'obj.id'/>);"><i class="ace-icon fa fa-trash-o bigger-120"></i></button>
 									</div>
 									<div class="hidden-md hidden-lg">
 										<div class="inline pos-rel">
 											<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown"><i class="iace-icon fa fa-cog icon-only bigger-110"></i></button>
 											<ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
-												<li><a href="javascript:crud.view(\$\{obj.id\});" class="tooltip-info" data-rel="tooltip" title="View"><span class="blue"><i class="ace-icon fa fa-eye bigger-120"></i></span></a></li>
-												<li><a href="javascript:crud.update(\$\{obj.id\});" class="tooltip-success" data-rel="tooltip" title="Edit"><span class="green"><i class="ace-icon fa fa-edit bigger-120"></i></span></a></li>
-												<li><a href="javascript:crud.del(\$\{obj.id\});" class="tooltip-error" data-rel="tooltip" title="Delete"><span class="red"><i class="iace-icon fa fa-trash-o bigger-120"></i></span></a></li>
+												<li><a href="javascript:crud.view(<@mapperEl1 'obj.id'/>);" class="tooltip-info" data-rel="tooltip" title="View"><span class="blue"><i class="ace-icon fa fa-eye bigger-120"></i></span></a></li>
+												<li><a href="javascript:crud.update(<@mapperEl1 'obj.id'/>);" class="tooltip-success" data-rel="tooltip" title="Edit"><span class="green"><i class="ace-icon fa fa-edit bigger-120"></i></span></a></li>
+												<li><a href="javascript:crud.del(<@mapperEl1 'obj.id'/>);" class="tooltip-error" data-rel="tooltip" title="Delete"><span class="red"><i class="iace-icon fa fa-trash-o bigger-120"></i></span></a></li>
 											</ul>
 										</div>
 									</div>
 								</td>
 							</tr>
-						</\#list>
+						</<@mapperEl 'list'/>>
 					</tbody>
 				</table>
 			</div>
-			<\@pctrl.p search.page.itemCount,search.page.pageNo,search.page.pageSize />
+			<<@mapperEl2 'pctrl'/>.p search.page.itemCount,search.page.pageNo,search.page.pageSize />
 		</div>
 	</div>
 </div>
+</form>

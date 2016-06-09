@@ -5,17 +5,32 @@
 <!DOCTYPE mapper
 PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
-
+<#macro mapperEl value>${r"#{"}${value}}</#macro>
 <!-- 存放手写的sql -->
-<mapper namespace="com.airsky.usp.${oneDomain}.repository.${twoDomain}.${className}Mapper">
+<mapper namespace="com.airsky.usp.repository.${oneDomain}.${twoDomain}.${className}Mapper">
 
 	<delete id="batchDelete">
 		 <![CDATA[
 	        DELETE FROM ${table.sqlName} WHERE ID in
 	    ]]>
 	    <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
-	    	\#\{item\}
+		<@mapperEl 'item'/>
+		
 		</foreach>
 	</delete>
+	
+	<select id="checkUnique" resultMap="com.airsky.usp.entities.${oneDomain}.${twoDomain}.${className}.${className}">
+		SELECT <include refid="com.airsky.usp.entities.${oneDomain}.${twoDomain}.${className}.columns" />
+		FROM ${table.sqlName} 
+	    WHERE 1=1
+	    <#list table.columns as column>
+    	<#if column.unique && !column.pk>
+    		AND ${column.sqlName} = <@mapperEl 'm.'+column.columnNameFirstLower/>
+    	</#if>
+		</#list>
+		<if test="@com.framework.common.util.Ognl@isNotEmpty(m.id)">
+			AND ID != <@mapperEl 'm.id'/>
+		</if>
+	</select>
 	
 </mapper>

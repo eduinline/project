@@ -1,15 +1,15 @@
 <#include "/macro.include"/>
 <#assign className = table.className>   
 <#assign classNameLower = className?uncap_first>
-package com.airsky.usp.${oneDomain}.entities.${twoDomain};
+package com.airsky.usp.entities.${oneDomain}.${twoDomain};
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import common.entities.BaseEntity;
-import common.util.DateConvertUtils;
+import com.framework.common.entities.BaseEntity;
+import com.framework.common.util.DateConvertUtils;
 
 public class ${className} extends BaseEntity implements java.io.Serializable{
 
