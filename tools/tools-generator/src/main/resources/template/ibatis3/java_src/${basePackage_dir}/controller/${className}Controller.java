@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.airsky.usp.controller.common.BaseCRUDController;
 import com.airsky.usp.controller.${oneDomain}.${twoDomain}.errorcode.I${className}ControllerError;
 import com.airsky.usp.entities.${oneDomain}.${twoDomain}.${className};
+import com.airsky.usp.entities.system.menus.Menus;
 import com.airsky.usp.service.${oneDomain}.${twoDomain}.I${className}Service;
 import com.framework.common.exception.ApplicationException;
 
@@ -35,6 +36,12 @@ public class ${className}Controller extends BaseCRUDController<${className}, ${t
 		return Boolean.TRUE;
 	}
 	
+	<#if mulLanguage=='Y'>
+	protected void afterSave(${className} m) {
+		${classNameLower}Service.insertLanguage(m);
+	}
+	</#if>
+	
 	@Override
 	protected boolean beforeUpdate(${className} m) {
 		super.beforeUpdate(m);
@@ -43,6 +50,17 @@ public class ${className}Controller extends BaseCRUDController<${className}, ${t
 		return Boolean.TRUE;
 	}
 	
+	<#if mulLanguage=='Y'>
+	protected void afterUpdate(${className} m) {
+		${classNameLower}Service.updateLanguage(m);
+	}
+	</#if>
+	
+	<#if mulLanguage=='Y'>
+	protected void afterDelete(Integer id) {
+		menusService.deleteLanguage(id);
+	}
+	</#if>
 	
 	@Override
 	protected void setCommonData(Model model) {

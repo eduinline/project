@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.airsky.usp.entities.${oneDomain}.${twoDomain}.${className};
+import com.airsky.usp.entities.system.menus.Menus;
 import com.airsky.usp.repository.${oneDomain}.${twoDomain}.${className}Mapper;
 import com.airsky.usp.service.${oneDomain}.${twoDomain}.I${className}Service;
 import com.framework.service.base.impl.CrudServiceImpl;
@@ -30,6 +31,21 @@ implements I${className}Service {
 		if(list.isEmpty())
 			return true;
 		return false;
+	}
+	
+	@Override
+	public void insertLanguage(${className} m) {
+		${classNameLower}Mapper.insertLanguage(m);
+	}
+
+	@Override
+	public void updateLanguage(${className} m) {
+		${classNameLower}Mapper.updateLanguage(m);
+	}
+	
+	@Override
+	public void deleteLanguage(${table.idColumn.javaType} id) {
+		${classNameLower}Mapper.deleteLanguage(id);
 	}
 	
 }
