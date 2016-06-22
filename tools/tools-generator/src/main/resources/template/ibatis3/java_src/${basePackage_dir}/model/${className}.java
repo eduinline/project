@@ -64,6 +64,14 @@ public class ${className} extends BaseEntity implements java.io.Serializable{
 	</#if>
 	</#list>
 	//columns END
+	private java.lang.String lanCode;
+	public java.lang.String getLanCode() {
+		return lanCode;
+	}
+	public void setLanCode(java.lang.String lanCode) {
+		this.lanCode = lanCode;
+	}
+	public
 
 	<@generateConstructor className/>
 	<@generateJavaColumns/>

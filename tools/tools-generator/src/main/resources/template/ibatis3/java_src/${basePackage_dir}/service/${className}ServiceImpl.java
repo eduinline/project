@@ -7,6 +7,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.airsky.usp.dto.system.language.MulLanDto;
+import com.airsky.usp.dto.system.language.MulLanModel;
 import com.airsky.usp.entities.${oneDomain}.${twoDomain}.${className};
 import com.airsky.usp.entities.system.menus.Menus;
 import com.airsky.usp.repository.${oneDomain}.${twoDomain}.${className}Mapper;
@@ -34,18 +36,31 @@ implements I${className}Service {
 	}
 	
 	@Override
-	public void insertLanguage(${className} m) {
-		${classNameLower}Mapper.insertLanguage(m);
+	public void insertLanguage(${className} m, String lanCode) {
+		${classNameLower}Mapper.insertLanguage(m, lanCode);
 	}
 
 	@Override
 	public void updateLanguage(${className} m) {
 		${classNameLower}Mapper.updateLanguage(m);
 	}
-	
+
 	@Override
 	public void deleteLanguage(${table.idColumn.javaType} id) {
 		${classNameLower}Mapper.deleteLanguage(id);
+	}
+
+	@Override
+	public List<MulLanDto> findMulLanById(${table.idColumn.javaType} id, String field) {
+		return ${classNameLower}Mapper.findMulLanById(id, field);
+	}
+
+	@Override
+	public void upadteMulLan(MulLanModel mulLanModel) {
+		List<MulLanDto> mulLanList = mulLanModel.getMulLanList();
+		for (MulLanDto mulLanDto : mulLanList) {
+			${classNameLower}Mapper.upadteMulLan(mulLanDto);
+		}
 	}
 	
 }

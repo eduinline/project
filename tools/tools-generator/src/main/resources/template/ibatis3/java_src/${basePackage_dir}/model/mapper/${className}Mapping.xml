@@ -14,7 +14,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	        DELETE FROM ${table.sqlName} WHERE ID in
 	    ]]>
 	    <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
-		<@mapperEl 'item'/>
+				<@mapperEl 'item'/>
 		
 		</foreach>
 	</delete>
@@ -32,5 +32,68 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 			AND ID != <@mapperEl 'm.id'/>
 		</if>
 	</select>
+	
+	<resultMap id="MulLanDto" type="com.airsky.usp.dto.system.language.MulLanDto">
+        <result property="id" column="ID"/>
+        <result property="pid" column="PID"/>
+        <result property="field" column="FIELD"/>
+        <result property="lanCode" column="LAN_CODE"/>
+        <result property="fieldValue" column="VALUE"/>
+	</resultMap>
+	
+	<insert id="insertLanguage">
+    <![CDATA[
+        INSERT INTO ${table.sqlName}_language (
+        	PID ,
+        	NAME ,
+        	LAN_CODE ,
+        	CREATED_BY ,
+        	CREATED_TIME 
+        ) VALUES (
+        	#{m.id} ,
+        	#{m.name} ,
+        	#{lanCode} ,
+        	#{m.createdBy} ,
+        	#{m.createdTime} 
+        )
+    ]]>
+	</insert>
+	
+	<update id="updateLanguage" >
+    <![CDATA[
+        UPDATE ${table.sqlName}_language SET
+	        NAME = #{m.name}
+        WHERE 
+	        PID = #{m.id} AND LAN_CODE = #{m.lanCode}
+    ]]>
+	</update>
+	
+	<delete id="deleteLanguage">
+    <![CDATA[
+        DELETE FROM ${table.sqlName}_language WHERE
+        PID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="findMulLanById" resultMap="MulLanDto">
+    	SELECT ID, PID, LAN_CODE, 
+    	<if test="@com.framework.common.util.Ognl@isEquals('name', field)">
+			NAME 
+		</if>
+		AS VALUE
+	    FROM ${table.sqlName}_language 
+		WHERE PID = #{id}
+		ORDER BY LAN_CODE
+    </select>
+    
+    <update id="upadteMulLan" >
+        UPDATE ${table.sqlName}_language SET
+        <if test="@com.framework.common.util.Ognl@isEquals('name', mulLanDto.field)">
+			NAME 
+		</if>
+			= #{mulLanDto.fieldValue}
+        WHERE 
+	        PID = #{mulLanDto.pid} AND LAN_CODE = #{mulLanDto.lanCode}
+	</update>
 	
 </mapper>
