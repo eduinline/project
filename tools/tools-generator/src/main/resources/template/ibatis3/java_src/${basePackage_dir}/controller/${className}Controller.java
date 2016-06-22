@@ -34,10 +34,6 @@ implements I${className}ControllerError {
 	
 	@Autowired
 	private I${className}Service ${classNameLower}Service;
-	<#if mulLanguage=='Y'>
-	@Resource
-	private ILanguageTypeService languageTypeService;
-	</#if>
 	
 	@Override
 	protected boolean beforeSave(${className} m) {
@@ -58,21 +54,6 @@ implements I${className}ControllerError {
 	}
 	
 	<#if mulLanguage=='Y'>
-	protected void afterSave(${className} m, ${table.idColumn.javaType} id) {
-		m.setId(id);
-		${classNameLower}Service.insertLanguage(m, m.getLanCode());
-	}
-	
-	protected void afterUpdate(${className} m) {
-		${classNameLower}Service.updateLanguage(m);
-	}
-	
-	protected boolean beforDelete(${table.idColumn.javaType} id) {
-		super.beforDelete(id);
-		${classNameLower}Service.deleteLanguage(id);
-		return true;
-	}
-	
 	@RequestMapping(value = "/mullan/{id}/{field}")
 	public String showMullan(@PathVariable("id") ${table.idColumn.javaType} id, 
 			@PathVariable("field") String field, Model model) {
@@ -95,7 +76,7 @@ implements I${className}ControllerError {
 		}
 		model.addAttribute("mulLanList", mulLanList);
 		setCommonData(model);
-		return "system/languagetype/mulLanEdit";
+		return LANGUAGE_PAGE;
 	}
 	
 	/**

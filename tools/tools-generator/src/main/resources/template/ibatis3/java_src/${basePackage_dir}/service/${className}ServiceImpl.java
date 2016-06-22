@@ -36,18 +36,25 @@ implements I${className}Service {
 	}
 	
 	@Override
+	public void afterSave(${className} entity, ${table.idColumn.javaType} id){
+		entity.setId(id);
+		${classNameLower}Mapper.insertLanguage(entity, entity.getLanCode());
+	}
+	
+	@Override
+	public void afterUpdate(${className} entity){
+		${classNameLower}Mapper.updateLanguage(entity);
+	}
+	
+	@Override
+	public boolean beforeDelete(${table.idColumn.javaType} id){
+		menusMapper.deleteLanguage(id);
+		return true;
+	}
+	
+	@Override
 	public void insertLanguage(${className} m, String lanCode) {
 		${classNameLower}Mapper.insertLanguage(m, lanCode);
-	}
-
-	@Override
-	public void updateLanguage(${className} m) {
-		${classNameLower}Mapper.updateLanguage(m);
-	}
-
-	@Override
-	public void deleteLanguage(${table.idColumn.javaType} id) {
-		${classNameLower}Mapper.deleteLanguage(id);
 	}
 
 	@Override

@@ -31,18 +31,6 @@ public interface I${className}Service extends ICrudService<${className}, ${table
 	void insertLanguage(${className} m, String lanCode);
 	
 	/**
-	 * 更新多语言处理
-	 * @param m 需要处理的对象
-	 */
-	void updateLanguage(${className} m);
-
-	/**
-	 * 删除多语言处理
-	 * @param id 主表ID
-	 */
-	void deleteLanguage(${table.idColumn.javaType} id);
-
-	/**
 	 * 获取某条记录的多语言值
 	 * @param id 主键ID
 	 * @param field 多语言字段
