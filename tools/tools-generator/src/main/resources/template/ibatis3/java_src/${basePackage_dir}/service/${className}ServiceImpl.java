@@ -24,6 +24,11 @@ implements I${className}Service {
 
 	@Override
 	public void batchDelete(List<${table.idColumn.javaType}> ids) {
+		<#if mulLanguage=='Y'>
+		for (${table.idColumn.javaType} id : ids) {
+			${classNameLower}Mapper.deleteLanguage(id);
+		}
+		</#if>
 		${classNameLower}Mapper.batchDelete(ids);
 	}
 	
