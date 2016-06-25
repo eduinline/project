@@ -33,14 +33,6 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		</if>
 	</select>
 	
-	<resultMap id="MulLanDto" type="com.airsky.usp.dto.system.language.MulLanDto">
-        <result property="id" column="ID"/>
-        <result property="pid" column="PID"/>
-        <result property="field" column="FIELD"/>
-        <result property="lanCode" column="LAN_CODE"/>
-        <result property="fieldValue" column="VALUE"/>
-	</resultMap>
-	
 	<insert id="insertLanguage">
     <![CDATA[
         INSERT INTO ${table.sqlName}_language (
@@ -75,7 +67,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     ]]>
     </delete>
     
-    <select id="findMulLanById" resultMap="MulLanDto">
+    <select id="findMulLanById" resultMap="com.framework.dto.language.MulLanDto.MulLanDto">
     	SELECT ID, PID, LAN_CODE, 
     	<if test="@com.framework.common.util.Ognl@isEquals('name', field)">
 			NAME 
