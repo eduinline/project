@@ -7,12 +7,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.airsky.usp.dto.system.language.MulLanDto;
-import com.airsky.usp.dto.system.language.MulLanModel;
 import com.airsky.usp.entities.${oneDomain}.${twoDomain}.${className};
-import com.airsky.usp.entities.system.menus.Menus;
 import com.airsky.usp.repository.${oneDomain}.${twoDomain}.${className}Mapper;
 import com.airsky.usp.service.${oneDomain}.${twoDomain}.I${className}Service;
+import com.framework.dto.language.MulLanDto;
+import com.framework.dto.language.MulLanModel;
 import com.framework.service.base.impl.CrudServiceImpl;
 
 @Service
@@ -53,7 +52,7 @@ implements I${className}Service {
 	
 	@Override
 	public boolean beforeDelete(${table.idColumn.javaType} id){
-		menusMapper.deleteLanguage(id);
+		${classNameLower}Mapper.deleteLanguage(id);
 		return true;
 	}
 	

@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,14 +17,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.airsky.usp.controller.common.BaseCRUDController;
 import com.airsky.usp.controller.${oneDomain}.${twoDomain}.errorcode.I${className}ControllerError;
-import com.airsky.usp.dto.system.language.MulLanDto;
-import com.airsky.usp.dto.system.language.MulLanModel;
 import com.airsky.usp.entities.${oneDomain}.${twoDomain}.${className};
-import com.airsky.usp.entities.system.languagetype.LanguageType;
-import com.airsky.usp.entities.system.menus.Menus;
+import com.airsky.usp.entities.mullan.languagetype.LanguageType;
 import com.airsky.usp.service.${oneDomain}.${twoDomain}.I${className}Service;
-import com.airsky.usp.service.system.languagetype.ILanguageTypeService;
 import com.framework.common.exception.ApplicationException;
+import com.framework.dto.language.MulLanDto;
+import com.framework.dto.language.MulLanModel;
 
 @Controller
 @RequestMapping("${oneDomain}/${twoDomain}")
@@ -40,7 +37,7 @@ implements I${className}ControllerError {
 		super.beforeSave(m);
 		if(!${classNameLower}Service.checkUnique(m))
 			throw new ApplicationException(SAVE_ERR_CODE_RUNTITME);
-		m.setCreatedBy(getUserId());
+		m.setCreatedBy(getUserAcount());
 		m.setCreatedTime(new Timestamp(System.currentTimeMillis()));
 		return Boolean.TRUE;
 	}
@@ -98,10 +95,10 @@ implements I${className}ControllerError {
 	@RequestMapping(value = "/batchDelete")
 	public void batchDelete(String ids) {
 		try {
-			List<Integer> idsList = new ArrayList<Integer>();
+			List<${table.idColumn.javaType}> idsList = new ArrayList<${table.idColumn.javaType}>();
 			String[] idsArr = ids.split(",");
 			for (String id : idsArr) {
-				idsList.add(Integer.valueOf(id));
+				idsList.add(${table.idColumn.javaType}.valueOf(id));
 			}
 			${classNameLower}Service.batchDelete(idsList);
 		} catch(Exception ex) {

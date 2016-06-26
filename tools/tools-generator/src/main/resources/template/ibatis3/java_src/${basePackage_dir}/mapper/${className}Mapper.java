@@ -6,9 +6,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.airsky.usp.dto.system.language.MulLanDto;
 import com.airsky.usp.entities.${oneDomain}.${twoDomain}.${className};
-import com.airsky.usp.entities.system.menus.Menus;
+import com.framework.dto.language.MulLanDto;
 
 public interface ${className}Mapper {
 	

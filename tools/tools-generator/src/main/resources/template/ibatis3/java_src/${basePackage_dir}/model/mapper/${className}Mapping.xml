@@ -42,11 +42,11 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
         	CREATED_BY ,
         	CREATED_TIME 
         ) VALUES (
-        	#{m.id} ,
-        	#{m.name} ,
-        	#{lanCode} ,
-        	#{m.createdBy} ,
-        	#{m.createdTime} 
+        	<@mapperEl 'm.id'/>,
+        	<@mapperEl 'm.name'/>,
+        	<@mapperEl 'lanCode'/>,
+        	<@mapperEl 'm.createdBy'/>,
+        	<@mapperEl 'm.createdTime'/>
         )
     ]]>
 	</insert>
@@ -54,16 +54,16 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	<update id="updateLanguage" >
     <![CDATA[
         UPDATE ${table.sqlName}_language SET
-	        NAME = #{m.name}
+	        NAME = <@mapperEl 'm.name'/>
         WHERE 
-	        PID = #{m.id} AND LAN_CODE = #{m.lanCode}
+	        PID = <@mapperEl 'm.id'/> AND LAN_CODE = <@mapperEl 'm.lanCode'/>
     ]]>
 	</update>
 	
 	<delete id="deleteLanguage">
     <![CDATA[
         DELETE FROM ${table.sqlName}_language WHERE
-        PID = #{id} 
+        PID = <@mapperEl 'id'/>
     ]]>
     </delete>
     
@@ -74,7 +74,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		</if>
 		AS VALUE
 	    FROM ${table.sqlName}_language 
-		WHERE PID = #{id}
+		WHERE PID = <@mapperEl 'id'/>
 		ORDER BY LAN_CODE
     </select>
     
@@ -83,9 +83,9 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
         <if test="@com.framework.common.util.Ognl@isEquals('name', mulLanDto.field)">
 			NAME 
 		</if>
-			= #{mulLanDto.fieldValue}
+			= <@mapperEl 'mulLanDto.fieldValue'/>
         WHERE 
-	        PID = #{mulLanDto.pid} AND LAN_CODE = #{mulLanDto.lanCode}
+	        PID = <@mapperEl 'mulLanDto.pid'/> AND LAN_CODE = <@mapperEl 'mulLanDto.lanCode'/>
 	</update>
 	
 </mapper>
