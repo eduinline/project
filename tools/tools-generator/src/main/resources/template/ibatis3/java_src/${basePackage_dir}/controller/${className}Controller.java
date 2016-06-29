@@ -4,6 +4,7 @@ package ${basePackage}.controller.${oneDomain}.${twoDomain};
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.airsky.usp.controller.common.BaseCRUDController;
 import com.airsky.usp.controller.${oneDomain}.${twoDomain}.errorcode.I${className}ControllerError;
 import com.airsky.usp.entities.${oneDomain}.${twoDomain}.${className};
+import com.airsky.usp.entities.basedata.airlines.Airlines;
 import com.airsky.usp.entities.mullan.languagetype.LanguageType;
 import com.airsky.usp.service.${oneDomain}.${twoDomain}.I${className}Service;
 import com.framework.common.exception.ApplicationException;
@@ -29,8 +31,14 @@ import com.framework.dto.language.MulLanModel;
 public class ${className}Controller extends BaseCRUDController<${className}, ${table.idColumn.javaType}> 
 implements I${className}ControllerError {
 	
-	@Autowired
+	@Resource
 	private I${className}Service ${classNameLower}Service;
+	
+	@ResponseBody
+	@RequestMapping(value = "/checkUnique")
+	public boolean checkUnique(${className} m) {
+		return ${classNameLower}Service.checkUnique(m);
+	}
 	
 	@Override
 	protected boolean beforeSave(${className} m) {
@@ -38,7 +46,7 @@ implements I${className}ControllerError {
 		if(!${classNameLower}Service.checkUnique(m))
 			throw new ApplicationException(SAVE_ERR_CODE_RUNTITME);
 		m.setCreatedBy(getUserAcount());
-		m.setCreatedTime(new Timestamp(System.currentTimeMillis()));
+		m.setCreatedTime(new Date());
 		return Boolean.TRUE;
 	}
 	
@@ -51,6 +59,7 @@ implements I${className}ControllerError {
 	}
 	
 	<#if mulLanguage=='Y'>
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/mullan/{id}/{field}")
 	public String showMullan(@PathVariable("id") ${table.idColumn.javaType} id, 
 			@PathVariable("field") String field, Model model) {
