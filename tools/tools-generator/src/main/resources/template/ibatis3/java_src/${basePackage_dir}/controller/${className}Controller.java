@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.airsky.usp.controller.common.BaseCRUDController;
 import com.airsky.usp.controller.${oneDomain}.${twoDomain}.errorcode.I${className}ControllerError;
 import com.airsky.usp.entities.${oneDomain}.${twoDomain}.${className};
-import com.airsky.usp.entities.basedata.airlines.Airlines;
 import com.airsky.usp.entities.mullan.languagetype.LanguageType;
 import com.airsky.usp.service.${oneDomain}.${twoDomain}.I${className}Service;
 import com.framework.common.exception.ApplicationException;
@@ -43,8 +42,6 @@ implements I${className}ControllerError {
 	@Override
 	protected boolean beforeSave(${className} m) {
 		super.beforeSave(m);
-		if(!${classNameLower}Service.checkUnique(m))
-			throw new ApplicationException(SAVE_ERR_CODE_RUNTITME);
 		m.setCreatedBy(getUserAcount());
 		m.setCreatedTime(new Date());
 		return Boolean.TRUE;
@@ -53,8 +50,6 @@ implements I${className}ControllerError {
 	@Override
 	protected boolean beforeUpdate(${className} m) {
 		super.beforeUpdate(m);
-		if(!${classNameLower}Service.checkUnique(m))
-			throw new ApplicationException(SAVE_ERR_CODE_RUNTITME);
 		return Boolean.TRUE;
 	}
 	
