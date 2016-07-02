@@ -7,7 +7,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.airsky.usp.entities.${oneDomain}.${twoDomain}.${className};
-import com.framework.dto.language.MulLanDto;
+import com.airsky.usp.dto.mullan.MulLanDto;
 
 public interface ${className}Mapper {
 	

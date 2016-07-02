@@ -22,8 +22,8 @@ import com.airsky.usp.entities.${oneDomain}.${twoDomain}.${className};
 import com.airsky.usp.entities.mullan.languagetype.LanguageType;
 import com.airsky.usp.service.${oneDomain}.${twoDomain}.I${className}Service;
 import com.framework.common.exception.ApplicationException;
-import com.framework.dto.language.MulLanDto;
-import com.framework.dto.language.MulLanModel;
+import com.airsky.usp.dto.mullan.MulLanDto;
+import com.airsky.usp.dto.mullan.MulLanModel;
 
 @Controller
 @RequestMapping("${oneDomain}/${twoDomain}")

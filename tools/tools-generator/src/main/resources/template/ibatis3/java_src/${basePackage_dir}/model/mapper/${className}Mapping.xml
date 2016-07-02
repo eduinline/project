@@ -67,7 +67,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     ]]>
     </delete>
     
-    <select id="findMulLanById" resultMap="com.framework.dto.language.MulLanDto.MulLanDto">
+    <select id="findMulLanById" resultMap="com.airsky.usp.dto.mullan.MulLanDto.MulLanDto">
     	SELECT ID, PID, LAN_CODE, 
     	<if test="@com.framework.common.util.Ognl@isEquals('name', field)">
 			NAME 

@@ -11,8 +11,8 @@ import com.airsky.usp.entities.${oneDomain}.${twoDomain}.${className};
 import com.airsky.usp.repository.${oneDomain}.${twoDomain}.${className}Mapper;
 import com.airsky.usp.service.${oneDomain}.${twoDomain}.I${className}Service;
 import com.framework.common.exception.ServiceException;
-import com.framework.dto.language.MulLanDto;
-import com.framework.dto.language.MulLanModel;
+import com.airsky.usp.dto.mullan.MulLanDto;
+import com.airsky.usp.dto.mullan.MulLanModel;
 import com.framework.service.base.impl.CrudServiceImpl;
 
 @Service

@@ -5,8 +5,8 @@ package com.airsky.usp.service.${oneDomain}.${twoDomain};
 import java.util.List;
 
 import com.airsky.usp.entities.${oneDomain}.${twoDomain}.${className};
-import com.framework.dto.language.MulLanDto;
-import com.framework.dto.language.MulLanModel;
+import com.airsky.usp.dto.mullan.MulLanDto;
+import com.airsky.usp.dto.mullan.MulLanModel;
 import com.framework.service.base.ICrudService;
 
 public interface I${className}Service extends ICrudService<${className}, ${table.idColumn.javaType}>{
