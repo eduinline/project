@@ -31,14 +31,6 @@ public class Strategy {
 	/** 支付接口 */
 	private Pay pay;
 	
-	/**
-	 * <p>策略模式测试入口</p>
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		
-	}
-	
 	public Pay getPay() {
 		return pay;
 	}
