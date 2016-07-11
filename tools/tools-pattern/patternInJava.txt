@@ -51,7 +51,7 @@ Java中的24中设计模式分析
             java.lang.reflect.Proxy
             RMI
 
-二、创建模式（5）
+二、创建型模式（5）
 1.抽象工厂模式：抽象工厂模式提供了一个协议来生成一系列的相关或者独立的对象，而不用指定具体对象的类型。它使得应用程序能够和使用的框架的具体实现进行解耦。这在JDK或者许多框架比如Spring中都随处可见。它们也很容易识别，一个创建新对象的方法，返回的却是接口或者抽象类的，就是抽象工厂模式了。
 
             java.util.Calendar#getInstance()
@@ -92,7 +92,7 @@ Java中的24中设计模式分析
             java.awt.GraphicsEnvironment#getLocalGraphicsEnvironment()
             java.awt.Desktop#getDesktop()
 
-三、行为模式（12）
+三、行为型模式（12）
 1.责任链模式：通过把请求从一个对象传递到链条中下一个对象的方式，直到请求被处理完毕，以实现对象间的解耦。
 
             java.util.logging.Logger#log()

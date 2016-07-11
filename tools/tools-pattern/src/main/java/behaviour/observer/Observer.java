@@ -16,4 +16,11 @@ package behaviour.observer;
  */
 public interface Observer {
 	
+	/**
+	 * <p>观察者进行更新操作</p>
+	 * @param subject
+	 * @param params
+	 */
+	void update(Subject subject, Object params);
+	
 }

@@ -31,7 +31,7 @@ public class WeatherDataClient{
 		rd.disposy();
 		od.disposy();
 		
-		//5.观察中心数据改变，这是观察者就不会再接收更新
+		//5.观察中心数据改变，这时观察者就不会再接收更新
 		wd.setChangeDate(22.32, 15.33, 170);
 		
 	}

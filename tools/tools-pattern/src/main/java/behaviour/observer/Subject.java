@@ -9,7 +9,7 @@
 package behaviour.observer;
 
 /**
- * <p>主题接口</p>
+ * <p>主题接口,定义了主题和观察者一对多的关系</p>
  * 
  * @version 1.0 2016年7月8日-下午2:54:09
  * @author hongze.he@eduinline.com
@@ -29,8 +29,20 @@ public interface Subject {
 	public void deleteObserver(Observer observer);
 	
 	/**
-	 * <p>通知观察者</p>
+	 * <p>删除全部观察者</p>
 	 */
-	public void notifyObserver();
+	public void deleteObserver();
+	
+	/**
+	 * <p>通知观察者</p>
+	 * @param params 传递的参数
+	 */
+	public void notifyObservers(Object params);
+	
+	/**
+	 * <p>获取观察者数量</p>
+	 * @return 当前观察者数量
+	 */
+	public int countObservers();
 	
 }

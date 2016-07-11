@@ -17,5 +17,5 @@ package behaviour.observer;
  * @author hongze.he@eduinline.com
  */
 public class ObserverClient {
-
+	
 }
