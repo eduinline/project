@@ -1,7 +1,7 @@
 <#include "/macro.include"/>
 <#assign className = table.className>   
 <#assign classNameLower = className?uncap_first>
-package com.airsky.usp.entities.${oneDomain}.${twoDomain};
+package ${basePackage}.entities.${oneDomain}.${twoDomain};
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;

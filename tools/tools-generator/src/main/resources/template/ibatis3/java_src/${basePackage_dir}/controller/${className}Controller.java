@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.airsky.usp.controller.common.BaseCRUDController;
-import com.airsky.usp.controller.${oneDomain}.${twoDomain}.errorcode.I${className}ControllerError;
-import com.airsky.usp.entities.${oneDomain}.${twoDomain}.${className};
-import com.airsky.usp.entities.mullan.languagetype.LanguageType;
-import com.airsky.usp.service.${oneDomain}.${twoDomain}.I${className}Service;
+import ${basePackage}.controller.common.BaseCRUDController;
+import ${basePackage}.controller.${oneDomain}.${twoDomain}.errorcode.I${className}ControllerError;
+import ${basePackage}.entities.${oneDomain}.${twoDomain}.${className};
+import ${basePackage}.entities.mullan.languagetype.LanguageType;
+import ${basePackage}.service.${oneDomain}.${twoDomain}.I${className}Service;
 import com.framework.common.exception.ApplicationException;
-import com.airsky.usp.dto.mullan.MulLanDto;
-import com.airsky.usp.dto.mullan.MulLanModel;
+import ${basePackage}.dto.mullan.MulLanDto;
+import ${basePackage}.dto.mullan.MulLanModel;
 
 @Controller
 @RequestMapping("${oneDomain}/${twoDomain}")

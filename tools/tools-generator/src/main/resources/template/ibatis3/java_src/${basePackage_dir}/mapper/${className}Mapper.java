@@ -1,13 +1,13 @@
 <#assign className = table.className>   
 <#assign classNameLower = className?uncap_first>
-package com.airsky.usp.repository.${oneDomain}.${twoDomain};
+package ${basePackage}.repository.${oneDomain}.${twoDomain};
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.airsky.usp.entities.${oneDomain}.${twoDomain}.${className};
-import com.airsky.usp.dto.mullan.MulLanDto;
+import ${basePackage}.entities.${oneDomain}.${twoDomain}.${className};
+import ${basePackage}.dto.mullan.MulLanDto;
 
 public interface ${className}Mapper {
 	

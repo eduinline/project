@@ -1,12 +1,12 @@
 <#assign className = table.className>   
 <#assign classNameLower = className?uncap_first>   
-package com.airsky.usp.service.${oneDomain}.${twoDomain};
+package ${basePackage}.service.${oneDomain}.${twoDomain};
 
 import java.util.List;
 
-import com.airsky.usp.entities.${oneDomain}.${twoDomain}.${className};
-import com.airsky.usp.dto.mullan.MulLanDto;
-import com.airsky.usp.dto.mullan.MulLanModel;
+import ${basePackage}.entities.${oneDomain}.${twoDomain}.${className};
+import ${basePackage}.dto.mullan.MulLanDto;
+import ${basePackage}.dto.mullan.MulLanModel;
 import com.framework.service.base.ICrudService;
 
 public interface I${className}Service extends ICrudService<${className}, ${table.idColumn.javaType}>{
