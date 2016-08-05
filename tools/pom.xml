@@ -10,7 +10,7 @@
 		<module>tools-base</module>
 		<module>tools-generator</module>
 		<module>tools-pattern</module>
-		<module>rapid</module>
+		<module>tools-rapid</module>
 	</modules>
 	
 	<developers>
