@@ -11,6 +11,7 @@
 		<module>tools-generator</module>
 		<module>tools-pattern</module>
 		<module>tools-rapid</module>
+		<module>tools-freemarker</module>
 	</modules>
 	
 	<developers>
