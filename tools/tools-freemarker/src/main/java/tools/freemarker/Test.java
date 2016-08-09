@@ -39,7 +39,7 @@ public class Test {
 		String filePath = ClassLoader.getSystemResource("template").getPath();
 		File file = new File(filePath);
 		cfg.setDirectoryForTemplateLoading(file);
-		Template template = cfg.getTemplate("test.html");
+		Template template = cfg.getTemplate("test/t.html");
 		Map<String, Object> root = new HashMap<String, Object>();
 		root.put("name", "world");
 		template.process(root, new OutputStreamWriter(System.out));
