@@ -12,6 +12,7 @@
 		<module>tools-pattern</module>
 		<module>tools-rapid</module>
 		<module>tools-freemarker</module>
+		<module>tools-validate</module>
 	</modules>
 	
 	<developers>
