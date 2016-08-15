@@ -23,7 +23,7 @@ public class ServiceException extends RuntimeException {
 	/** 参数 */
 	protected Object[] params;
 	
-	/** 序列化版本ID */
+	/** 实际的异常 */
 	protected Exception originException;
 
 	public ServiceException() {
