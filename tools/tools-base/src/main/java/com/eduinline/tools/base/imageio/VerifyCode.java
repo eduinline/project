@@ -37,20 +37,37 @@ public class VerifyCode{
 	/**
 	 * 输出随机验证码图片流
 	 * @param os 验证码图片输出流
+	 * @return String 验证码内容
 	 * @throws IOException
 	 */
-	public static void outputImage(OutputStream os) throws IOException{
-		outputImage(WIDTH, HEIGH, generateVerifyCode(4), os);
+	public static String outputImage(OutputStream os) throws IOException{
+		return outputImage(WIDTH, HEIGH, generateVerifyCode(4), os);
 	}
 	
 	/**
 	 * 输出随机验证码图片流
 	 * @param verifyCode 验证码内容
 	 * @param os 验证码图片输出流
+	 * @return String 验证码内容
 	 * @throws IOException
 	 */
-	public static void outputImage(String verifyCode, OutputStream os) throws IOException{
-		outputImage(WIDTH, HEIGH, verifyCode, os);
+	public static String outputImage(String verifyCode, OutputStream os) 
+			throws IOException{
+		return outputImage(WIDTH, HEIGH, verifyCode, os);
+	}
+	
+	/**
+	 * 输出指定验证码内容图片流
+	 * @param w 图片宽带
+	 * @param h 图片高度
+	 * @param os 验证码图片输出流
+	 * @return String 验证码内容
+	 * @throws IOException
+	 */
+	public static String outputImage(int w, int h, 
+			OutputStream os) throws IOException{
+		String code = generateVerifyCode(4);
+		return outputImage(w, h, code, os);
 	}
 
 	/**
@@ -59,9 +76,10 @@ public class VerifyCode{
 	 * @param h 图片高度
 	 * @param code 验证码内容
 	 * @param os 验证码图片输出流
+	 * @return String 验证码内容
 	 * @throws IOException
 	 */
-	public static void outputImage(int w, int h, String code, 
+	public static String outputImage(int w, int h, String code, 
 			OutputStream os) throws IOException{
 		int verifySize = code.length();
 		BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
@@ -120,6 +138,7 @@ public class VerifyCode{
 
 		g2.dispose();
 		ImageIO.write(image, IMG_TYPE, os);
+		return code;
 	}
 
 	/**

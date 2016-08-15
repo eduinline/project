@@ -92,7 +92,7 @@ public class EncryptUtil {
 	}
 	
 	/**
-	 * createSecretKey(根据字符keyDES密钥SecretKey)
+	 * createSecretKey(根据字符key创建DES密钥SecretKey)
 	 * @param key 提供的秘钥
 	 * @return SecretKey密钥
 	 * @throws Exception
@@ -177,12 +177,11 @@ public class EncryptUtil {
 	
 	/**
 	 * writeKeyToFile(把钥匙序列化到文件)
-	 * @param filePathAndName 文件路径和名称。如：D:/keys.rsa
+	 * @param file 序列化密钥的文件对象
 	 * @param key 钥匙
 	 * @throws IOException
 	 */
-	public static void writeKeyToFile(String filePathAndName, Key key) throws IOException {
-		File file = new File(filePathAndName);
+	public static void writeKeyToFile(File file, Key key) throws IOException {
 		FileOutputStream fos = new FileOutputStream(file);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 		oos.writeObject(key);
@@ -194,14 +193,13 @@ public class EncryptUtil {
 	
 	/**
 	 * readKeyFromFile(从文件读取Key)
-	 * @param filePathAndName 文件路径和名称。如：keys.rsa
+	 * @param file 反序列化密钥的文件对象
 	 * @return Key
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	public static Key readKeyFromFile(String filePathAndName) 
+	public static Key readKeyFromFile(File file) 
 			throws IOException, ClassNotFoundException {
-		File file = new File(filePathAndName);
 		FileInputStream fis = new FileInputStream(file);
 		ObjectInputStream bis = new ObjectInputStream(fis);
 		Object object = bis.readObject();

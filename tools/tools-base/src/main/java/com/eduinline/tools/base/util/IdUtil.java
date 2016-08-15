@@ -27,7 +27,7 @@ public class IdUtil {
 	  * uuid(封装JDK自带的UUID, 通过Random数字生成, 中间有-分割)
 	  * @return
 	  */
-	public static String uuid() {
+	public static String uuid1() {
 		return UUID.randomUUID().toString();
 	}
 

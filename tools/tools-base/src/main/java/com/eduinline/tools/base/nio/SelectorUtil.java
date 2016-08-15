@@ -1,7 +1,5 @@
 package com.eduinline.tools.base.nio;
 
-import java.nio.channels.Pipe;
-
 /**
  * <p>com.helizfamily.tools.base.nio.SelectorUtil.java</p>
  *
@@ -12,6 +10,6 @@ import java.nio.channels.Pipe;
  * 并能够知晓通道是否为诸如读写事件做好准备的组件。这样，一个单独的线程可以管理多个channel，从而管理多个网络连接。
  */
 public class SelectorUtil {
-	private Pipe p;
+
 }
 

@@ -53,7 +53,6 @@ public class DateFormatUtl {
 	 * @throws ParseException
 	 */
 	public static Date parse(String pattern, String source) throws ParseException{
-		SimpleDateFormat.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
 		return sdf.parse(source);
 	}
