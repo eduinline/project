@@ -87,7 +87,7 @@ public class RegexUtil {
 	 * 从字符串中获取匹配正则的字符集合
 	 * @param regex 正则表达式组（正则表达式中含有多个小括号）
 	 * @param handleStr 字符源
-	 * @return 匹配的组结果
+	 * @return 匹配的组结果(注意组的序号，组序号0始终代表整个表达式)
 	 */
 	public static List<String> getGroupResult(String regex, String handleStr){
 		Pattern p = getPattern(regex);
@@ -95,7 +95,7 @@ public class RegexUtil {
 		List<String> result = new ArrayList<String>();
 		while(matcher.find()){
 			int group = matcher.groupCount();
-			for(int i=1; i<group; i++){//组0始终代表整个表达式
+			for(int i=0; i<group; i++){//组0始终代表整个表达式
 				result.add(matcher.group(i));
 			}
 		}
