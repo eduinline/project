@@ -95,7 +95,7 @@ public class RegexUtil {
 		List<String> result = new ArrayList<String>();
 		while(matcher.find()){
 			int group = matcher.groupCount();
-			for(int i=0; i<group; i++){//组0始终代表整个表达式
+			for(int i=1; i<group; i++){//组0始终代表整个表达式
 				result.add(matcher.group(i));
 			}
 		}
