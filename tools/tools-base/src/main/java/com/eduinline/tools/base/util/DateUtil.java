@@ -19,11 +19,72 @@ public class DateUtil {
 	protected static final String TIME_FORMAT = "HH:mm:ss";
 	protected static final String DATETIME_FORMAT = "yyyy-MM-dd HH:mm";
 	protected static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+	protected static final String DATE_T_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 	protected static final String TIMESTAMP_FORMAT = "yyyy-MM-dd HH:mm:ss.S";
 	
 	protected static final String dayOfWeekNames[] = 
 		{ "星期六", "星期日", "星期一", "星期二", "星期三", "星期四", "星期五" };
 
+	/**
+	 * 格式化日期为yyyy-MM-dd
+	 * @param obj 需要格式化的对象
+	 * @return 格式化的日期字符串
+	 */
+	public static String format4yyyyMMdd(Object obj){
+		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+		return sdf.format(obj);
+	}
+	
+	/**
+	 * 格式化日期为HH:mm:ss
+	 * @param obj 需要格式化的对象
+	 * @return 格式化的日期字符串
+	 */
+	public static String format4HHmmss(Object obj){
+		SimpleDateFormat sdf = new SimpleDateFormat(TIME_FORMAT);
+		return sdf.format(obj);
+	}
+	
+	/**
+	 * 格式化日期为yyyy-MM-dd HH:mm
+	 * @param obj 需要格式化的对象
+	 * @return 格式化的日期字符串
+	 */
+	public static String format4yyyyMMddHHmm(Object obj){
+		SimpleDateFormat sdf = new SimpleDateFormat(DATETIME_FORMAT);
+		return sdf.format(obj);
+	}
+	
+	/**
+	 * 格式化日期为yyyy-MM-dd HH:mm:ss
+	 * @param obj 需要格式化的对象
+	 * @return 格式化的日期字符串
+	 */
+	public static String format4yyyyMMddHHmmss(Object obj){
+		SimpleDateFormat sdf = new SimpleDateFormat(DATE_TIME_FORMAT);
+		return sdf.format(obj);
+	}
+	
+	/**
+	 * 格式化日期为yyyy-MM-dd'T'HH:mm:ss
+	 * @param obj 需要格式化的对象
+	 * @return 格式化的日期字符串
+	 */
+	public static String format4yyyyMMddTHHmmss(Object obj){
+		SimpleDateFormat sdf = new SimpleDateFormat(DATE_T_TIME_FORMAT);
+		return sdf.format(obj);
+	}
+	
+	/**
+	 * 格式化日期为yyyy-MM-dd HH:mm:ss.S
+	 * @param obj 需要格式化的对象
+	 * @return 格式化的日期字符串
+	 */
+	public static String format4yyyyMMddHHmmssS(Object obj){
+		SimpleDateFormat sdf = new SimpleDateFormat(TIMESTAMP_FORMAT);
+		return sdf.format(obj);
+	}
+	
 	/**
 	 * 根据指定的模式格式化日期。SimpleDateFormat非线程安全，所以new
 	 * @param pattern 日期模式
@@ -49,24 +110,16 @@ public class DateUtil {
 	}
 	
 	/**
-	 * previous(获取当前日期的前N天日期)
-	 * @param days 前N天
-	 * @return
+	 * <p>对当前日期进行操作</p>
+	 * @param date 当前日期
+	 * @param field 操作的区域：Calendar.xxx常量
+	 * @param amount 操作的区域值：整数则加；负数则减
+	 * @return 操作后的日期
 	 */
-	public static Date previous(int days) {
+	public static Date handleDate(Date date, int field, int amount){
 		Calendar result = Calendar.getInstance();
-		result.add(Calendar.DATE, -days);
-		return result.getTime();
-	}
-	
-	/**
-	 * next(获取当前日期的后N天日期)
-	 * @param days 后N天
-	 * @return
-	 */
-	public static Date next(int days) {
-		Calendar result = Calendar.getInstance();
-		result.add(Calendar.DATE, days);
+		result.setTime(date);
+		result.add(field, amount);
 		return result.getTime();
 	}
 	
@@ -121,6 +174,23 @@ public class DateUtil {
 		Date date = new Date(temp.getTime()+elapsedTime);
 		
 		return format(TIME_FORMAT, date);
+	}
+	
+	/**
+	 * <p>比较2个日期段是否有交集</p>
+	 * @param begin1 第一个日期段的开始时间
+	 * @param end1 第一个日期段的结束时间
+	 * @param begin2 第二个日期段的开始时间
+	 * @param end2 第二个日期段的结束时间
+	 * @return true=存在交集；false不存在交集
+	 */
+	public static boolean checkDateUnion(Date begin1, Date end1, 
+			Date begin2, Date end2){
+		if(begin1.after(end2) || end1.before(begin2)){
+			return false;
+		}else{
+			return true;
+		}
 	}
 	
 }

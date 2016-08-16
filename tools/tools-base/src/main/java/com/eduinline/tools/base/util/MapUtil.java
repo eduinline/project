@@ -1,5 +1,9 @@
 package com.eduinline.tools.base.util;
 
+import java.beans.BeanInfo;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.IdentityHashMap;
@@ -20,9 +24,9 @@ public class MapUtil {
 	/**
 	 * 判断Map是否为空
 	 * @param map Map对象
-	 * @return TRUE=空Map
+	 * @return true=空
 	 */
-	public static <K,V> boolean isEmpty(Map<K,V> map){
+	public static <K, V> boolean isEmpty(Map<K, V> map){
 		if(null==map || map.isEmpty())
 			return true;
 		return false;
@@ -34,8 +38,8 @@ public class MapUtil {
 	 * <br>实现同步：Map m = Collections.synchronizedMap(new HashMap(...));
 	 * @return HashMap
 	 */
-	public static <K,V> HashMap<K,V> hashMap(){
-		return new HashMap<K,V>();
+	public static <K, V> HashMap<K, V> hashMap(){
+		return new HashMap<K, V>();
 	}
 	
 	/**
@@ -43,8 +47,8 @@ public class MapUtil {
 	 * <br>此类不保证映射的顺序，特别是它不保证该顺序恒久不变。
 	 * @return Hashtable
 	 */
-	public static <K,V> Hashtable<K,V> hashTable(){
-		return new Hashtable<K,V>();
+	public static <K, V> Hashtable<K, V> hashTable(){
+		return new Hashtable<K, V>();
 	}
 	
 	/**
@@ -52,8 +56,8 @@ public class MapUtil {
 	 * <br>尽管所有操作都是线程安全的，但获取操作不必锁定，并且不支持以某种防止所有访问的方式锁定整个表
 	 * @return ConcurrentHashMap
 	 */
-	public static <K,V> ConcurrentHashMap<K,V> concurrentHashMap(){
-		return new ConcurrentHashMap<K,V>();
+	public static <K, V> ConcurrentHashMap<K, V> concurrentHashMap(){
+		return new ConcurrentHashMap<K, V>();
 	}
 	
 	/**
@@ -61,12 +65,12 @@ public class MapUtil {
 	 * <br>实现同步：SortedMap m = Collections.synchronizedSortedMap(new TreeMap(...));
 	 * @return TreeMap
 	 */
-	public static <K,V> TreeMap<K,V> treeMap(){
-		return new TreeMap<K,V>();
+	public static <K, V> TreeMap<K, V> treeMap(){
+		return new TreeMap<K, V>();
 	}
 	
 	/**
-	 * 此类利用哈希表实现 Map 接口，比较键（和值）时使用引用相等性代替对象相等性。当且仅当 (k1==k2) 时，才认为两个键 k1 和 k2 相等
+	 * 此类利用哈希表实现 Map接口，比较键（和值）时使用引用相等性代替对象相等性。当且仅当 (k1==k2) 时，才认为两个键 k1 和 k2 相等
 	 * <br>实现同步：Map m = Collections.synchronizedMap(new HashMap(...)); 
 	 * @return IdentityHashMap
 	 */
@@ -74,5 +78,50 @@ public class MapUtil {
 		return new IdentityHashMap<K,V>();
 	}
 	
+	/**
+	 * <p>把Map转换为Bean</p>
+	 * @param map Map对象
+	 * @param obj Bean对象
+	 * @throws Exception
+	 */
+	public static void map2Bean(Map<String, Object> map, Object obj) throws Exception{
+		BeanInfo beanInfo = Introspector.getBeanInfo(obj.getClass());
+		PropertyDescriptor[] propertyDescriptors = 
+				beanInfo.getPropertyDescriptors();
+        for(PropertyDescriptor property : propertyDescriptors){
+            String key = property.getName();
+            if (map.containsKey(key)) {
+                Object value = map.get(key);
+                Method setter = property.getWriteMethod();
+                setter.invoke(obj, value);
+            }
+        }
+    }
+	
+	private static final String NAME_CLASS = "class";
+  
+	/**
+	 * <p>把Bean转换为Map</p>
+	 * @param obj Bean对象
+	 * @return Map<String, Object>
+	 * @throws Exception
+	 */
+    public static Map<String, Object> bean2Map(Object obj) throws Exception{
+    	Map<String, Object> map = new HashMap<String, Object>();
+        if(obj==null)
+            return map;
+        BeanInfo beanInfo = Introspector.getBeanInfo(obj.getClass());
+        PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+        for(PropertyDescriptor property : propertyDescriptors){
+            String key = property.getName();
+            if(!key.equals(NAME_CLASS)){
+                Method getter = property.getReadMethod();
+                Object value = getter.invoke(obj);
+                map.put(key, value);
+            }
+        }
+        return map;
+    }
+    
 }
 

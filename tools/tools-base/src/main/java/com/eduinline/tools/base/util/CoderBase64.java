@@ -13,7 +13,7 @@ import java.util.Base64;
  * @modifyed helizfamily helizfamily@qq.com
  * @purpose Base64编码解码处理工具类
  */
-public class CoderBase {
+public class CoderBase64 {
 	
 	/**
 	  * encode(Base64编码byte[])
