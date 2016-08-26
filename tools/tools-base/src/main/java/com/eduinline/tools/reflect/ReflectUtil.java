@@ -1,142 +1,211 @@
 package com.eduinline.tools.reflect;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
+import java.beans.BeanInfo;
+import java.beans.Introspector;
+import java.beans.MethodDescriptor;
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * <p>com.helizfamily.tools.base.reflect.ReflectUtil.java</p>
- *
- * @author helizfamily helizfamily@qq.com
- * @version 1.0 2016年2月19日-上午9:46:09
- * @modifyed helizfamily helizfamily@qq.com
- * @purpose 反射处理工具类
+ * <p>反射工具类：处理Java中常用的反射处理功能。</p>
+ * <ul>
+ * 	<li>1.处理泛型的反射处理</li>
+ *  <li>2.对类对象设置属性值、获取属性值以及执行方法</li>
+ * </ul>
+ * @version 1.0 2016年8月26日-上午10:21:11
+ * @author hongze.he@eduinline.com
  */
 public class ReflectUtil {
-	private static Object operate(Object obj, String fieldName, Object fieldVal, String type) {
-		Object ret = null;
-		try {
-			Class<? extends Object> classType = obj.getClass();
-			Field fields[] = classType.getDeclaredFields();
-			for (int i = 0; i < fields.length; i++) {
-				Field field = fields[i];
-				if (field.getName().equals(fieldName)) {
-					String firstLetter = fieldName.substring(0, 1).toUpperCase();
-					if ("set".equals(type)) {
-						String setMethodName = "set"+firstLetter+fieldName.substring(1);
-						Method setMethod = classType.getMethod(setMethodName, new Class[] { field.getType() });
-						ret = setMethod.invoke(obj, new Object[] { fieldVal });
-					}
-					if ("get".equals(type)) {
-						String getMethodName = "get" + firstLetter+ fieldName.substring(1);
-						Method getMethod = classType.getMethod(getMethodName, new Class[] {});
-						ret = getMethod.invoke(obj, new Object[] {});
-					}
-					return ret;
-				}
+	
+	/** 类描述 */
+	private static final String NAME_CLASS = "class";
+	
+	/** 日志对象 */
+	private static Logger logger = LoggerFactory.getLogger(ReflectUtil.class);
+	
+	/**
+	 * <p>把Bean转换为Map</p>
+	 * @param obj Bean对象
+	 * @return Map<String, Object>
+	 * @throws Exception
+	 */
+    public static Map<String, Object> bean2Map(Object obj){
+    	Map<String, Object> map = new HashMap<String, Object>();
+        if(obj==null)
+            return map;
+        try{
+        	BeanInfo beanInfo = Introspector.getBeanInfo(obj.getClass());
+            PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+            for(PropertyDescriptor property : propertyDescriptors){
+                String key = property.getName();
+                if(!key.equals(NAME_CLASS)){
+                    Method getter = property.getReadMethod();
+                    Object value = getter.invoke(obj);
+                    map.put(key, value);
+                }
+            }
+        }catch(Exception e){
+        	logger.error("Bean转Map异常", e);
+        }
+        return map;
+    }
+    
+    /**
+	 * <p>把Map设置到Bean属性中</p>
+	 * @param obj Bean对象
+	 * @param fieldMap Map对象属性
+	 * @return true=设置成功，否则失败
+	 */
+    public static boolean map2Bean(Object obj, Map<String, Object> fieldMap){
+        return setValues(obj, fieldMap);
+    }
+	
+	/**
+	 * <p>获取对象属性值</p>
+	 * @param obj 需要反射的对象
+	 * @param field 属性名称
+	 * @return 属性值
+	 */
+	public static Object getValue(Object obj, String field){
+		Object value = null;
+		if(null==obj)
+			return value;
+		try{
+			BeanInfo beanInfo = Introspector.getBeanInfo(obj.getClass());
+	        PropertyDescriptor[] propertyDescriptors = 
+	        		beanInfo.getPropertyDescriptors();
+	        for(PropertyDescriptor property : propertyDescriptors){
+	            String key = property.getName();
+	            if(!key.equals(NAME_CLASS) && key.equals(field)){
+	                Method getter = property.getReadMethod();
+	                value = getter.invoke(obj);
+	            }
+	        }
+	        return value;
+		}catch(Exception e){
+			logger.error("反射获取属性值异常", e);
+			return value;
+		}
+	}
+	
+	/**
+	 * <p>获取对象多个属性值</p>
+	 * @param obj 需要反射的对象
+	 * @param fields 属性名称数组
+	 * @return 属性值Map<field, fieldVal>
+	 */
+	public static Map<String, Object> getValues(Object obj, String... fields){
+		Map<String, Object> result = new HashMap<String, Object>();
+		if(null==obj)
+			return result;
+		List<String> fieldList = Arrays.asList(fields);
+		try{
+			BeanInfo beanInfo = Introspector.getBeanInfo(obj.getClass());
+	        PropertyDescriptor[] propertyDescriptors = 
+	        		beanInfo.getPropertyDescriptors();
+	        for(PropertyDescriptor property : propertyDescriptors){
+	            String key = property.getName();
+	            if(!key.equals(NAME_CLASS) && fieldList.contains(key)){
+	                Method getter = property.getReadMethod();
+	                Object value = getter.invoke(obj);
+	                result.put(key, value);
+	            }
+	        }
+	        return result;
+		}catch(Exception e){
+			logger.error("反射获取属性值异常", e);
+			return result;
+		}
+	}
+	
+	/**
+	 * <p>设置对象属性值</p>
+	 * @param obj 需要反射的对象
+	 * @param field 属性名称
+	 * @param fieldVal 属性值
+	 * @return true=设置成功；false失败
+	 */
+	public static boolean setValue(Object obj, String field, Object fieldVal){
+		if(null==obj)
+			return false;
+		try{
+			PropertyDescriptor propDesc = new PropertyDescriptor(field, obj.getClass());
+			Method setter = propDesc.getWriteMethod();
+            setter.invoke(obj, fieldVal);
+	        return false;
+		}catch(Exception e){
+			logger.error("反射设置属性值异常", e);
+			return false;
+		}
+	}
+	
+	/**
+	 * <p>设置对象属性值</p>
+	 * @param obj 需要反射的对象
+	 * @param fieldMap 属性键值对
+	 * @return true=设置成功；false失败
+	 */
+	public static boolean setValues(Object obj, Map<String, Object> fieldMap){
+		if(null==obj)
+			return false;
+		try{
+			Iterator<String> iterator = fieldMap.keySet().iterator();
+			while(iterator.hasNext()){
+				String field = iterator.next();
+				setValue(obj, field, fieldMap.get(field));
 			}
-		} catch (Exception e) {
-			// log.warn("reflect error:" + fieldName, e);
-		}
-		return ret;
-	}
-
-	public static Object getVal(Object obj, String fieldName) {
-		return operate(obj, fieldName, null, "get");
-	}
-
-	public static void setVal(Object obj, String fieldName, Object fieldVal) {
-		operate(obj, fieldName, fieldVal, "set");
-	}
-
-	private static Method getDeclaredMethod(Object object, String methodName,
-			Class<?>[] parameterTypes) {
-		for (Class<?> superClass = object.getClass(); superClass != Object.class; superClass = superClass
-				.getSuperclass()) {
-			try {
-				// superClass.getMethod(methodName, parameterTypes);
-				return superClass.getDeclaredMethod(methodName, parameterTypes);
-			} catch (NoSuchMethodException e) {
-				// Method 不在当前类定�? 继续向上转型
-			}
-		}
-
-		return null;
-	}
-
-	private static void makeAccessible(Field field) {
-		if (!Modifier.isPublic(field.getModifiers())) {
-			field.setAccessible(true);
+	        return true;
+		}catch(Exception e){
+			logger.error("反射设置属性值异常", e);
+			return false;
 		}
 	}
-
-	private static Field getDeclaredField(Object object, String filedName) {
-		for (Class<?> superClass = object.getClass(); superClass != Object.class; superClass = superClass
-				.getSuperclass()) {
-			try {
-				return superClass.getDeclaredField(filedName);
-			} catch (NoSuchFieldException e) {
-				// Field 不在当前类定�? 继续向上转型
-			}
-		}
-		return null;
-	}
-
-	public static Object invokeMethod(Object object, String methodName,
-			Class<?>[] parameterTypes, Object[] parameters)
-					throws InvocationTargetException {
-		Method method = getDeclaredMethod(object, methodName, parameterTypes);
-
-		if (method == null) {
-			throw new IllegalArgumentException("Could not find method ["
-					+ methodName + "] on target [" + object + "]");
-		}
-
-		method.setAccessible(true);
-
-		try {
-			return method.invoke(object, parameters);
-		} catch (IllegalAccessException e) {
-
-		}
-
-		return null;
-	}
-
-	public static void setFieldValue(Object object, String fieldName,
-			Object value) {
-		Field field = getDeclaredField(object, fieldName);
-
-		if (field == null)
-			throw new IllegalArgumentException("Could not find field ["
-					+ fieldName + "] on target [" + object + "]");
-
-		makeAccessible(field);
-
-		try {
-			field.set(object, value);
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
+	
+	/**
+	 * <p>执行对象方法</p>
+	 * @param obj 需要反射的对象
+	 * @param methodName 方法名称
+	 * @param args 方法参数
+	 * @return 执行方法后的返回值
+	 */
+	public static Object executeMethod(Object obj, String methodName, Object... args){
+		if(null==obj)
+			return null;
+		try{
+			BeanInfo beanInfo = Introspector.getBeanInfo(obj.getClass());
+			MethodDescriptor[] methodDescriptors = beanInfo.getMethodDescriptors();
+	        for(MethodDescriptor methodDescriptor : methodDescriptors){
+	            String name = methodDescriptor.getName();
+	            if(name.equals(methodName)){
+	                Method method = methodDescriptor.getMethod();
+	                Class<?>[] paramsTypes = method.getParameterTypes();
+	                if(args.length==paramsTypes.length){
+	                	boolean targetMethod = true;
+	                	for(int i=0; i<args.length; i++){
+	                		if(!args[i].getClass().equals(paramsTypes[i]))
+	                			targetMethod = false;
+	                	}
+	                	if(targetMethod){
+	                		return method.invoke(obj, args);
+	                	}else{
+	                		continue;
+	                	}
+	                }
+	            }
+	        }
+	        return null;
+		}catch(Exception e){
+			logger.error("反射执行对象方法异常", e);
+			return null;
 		}
 	}
-
-	public static Object getFieldValue(Object object, String fieldName) {
-		Field field = getDeclaredField(object, fieldName);
-		if (field == null)
-			throw new IllegalArgumentException("Could not find field ["
-					+ fieldName + "] on target [" + object + "]");
-
-		makeAccessible(field);
-
-		Object result = null;
-		try {
-			result = field.get(object);
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-
-		return result;
-	}
-
+	
 }
