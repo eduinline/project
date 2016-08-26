@@ -27,7 +27,7 @@ public class Ognl {
 		if(null==obj) 
 			return true;
 		if(obj instanceof String) {
-			return ((String)obj).length() == 0;
+			return ((String)obj).trim().length() == 0;
 		}else if(obj.getClass().isArray()) {
 			return Array.getLength(obj) == 0;
 		}else if(obj instanceof Collection) {
