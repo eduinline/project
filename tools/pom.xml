@@ -13,6 +13,7 @@
 		<module>tools-rapid</module>
 		<module>tools-freemarker</module>
 		<module>tools-validate</module>
+		<module>tools-jaxb</module>
 	</modules>
 	
 	<developers>

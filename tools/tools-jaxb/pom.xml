@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.eduinline</groupId>
+		<artifactId>tools</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>tools-jaxb</artifactId>
+
+	<build>
+		<plugins>
+			<!-- 要将源码放上去，需要加入这个插件 -->
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<configuration>
+					<attach>true</attach>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jaxb2-maven-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>xjc</goal>
+						</goals>
+						<configuration>
+							<!-- XSD文件目录 -->
+							<schemaDirectory>${basedir}/src/main/resources/schema</schemaDirectory>
+							<!-- 指定XSD文件类型，支持通配符 -->
+							<includeSchema>*.xsd</includeSchema>
+							<!-- 生成的JavaBean目录 -->
+							<outputDirectory>${basedir}/src/main/java</outputDirectory>
+							<!-- no package:不生成package-info.java -->
+							<npa>true</npa>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<distributionManagement>
+		<repository>
+			<id>Snapshots</id>
+			<name>Internal Snapshots</name>
+			<url>http://10.101.199.13:8081/artifactory/libs-snapshots-local</url>
+		</repository>
+	</distributionManagement>
+
+</project>
