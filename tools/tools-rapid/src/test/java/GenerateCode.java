@@ -1,6 +1,7 @@
 
 
 import cn.org.rapid_framework.generator.GeneratorFacade;
+import cn.org.rapid_framework.generator.util.test.GeneratorTestHelper;
 
 /**
  * <p>模板生成器入口</p>
@@ -16,16 +17,15 @@ public class GenerateCode {
 	 */
 	public static void main(String[] args) throws Exception {
 		GeneratorFacade g = new GeneratorFacade();		
-//		g.getGenerator().addTemplateRootDir("classpath:generator/template/rapid/table");
-//		System.out.println(GeneratorTestHelper.generateByTable(g, "DEMO_USERINFO"));
-		
-//		g.printAllTableNames();				//打印数据库中的表名称
+		g.getGenerator().addTemplateRootDir("classpath:template");
+		System.out.println(GeneratorTestHelper.generateByTable(g, "apps"));
+		g.printAllTableNames();				//打印数据库中的表名称
 		
 		g.deleteOutRootDir();							//删除生成器的输出目录
-		g.generateByTable("error_log","src/main/resources/template" );
+		g.generateByTable("apps");
 //		g.generateByTable("DEMO_USERINFO");	//通过数据库表生成文件,注意: oracle 需要指定schema及注意表名的大小写.
 //		g.generateByTable("table_name","TableName");	//通过数据库表生成文件,并可以自定义类名
-//		g.generateByAllTable();				//自动搜索数据库中的所有表并生成文件
+//		g.generateByAllTable();			//自动搜索数据库中的所有表并生成文件
 //		g.generateByClass(Blog.class);
 		
 		//打开文件夹

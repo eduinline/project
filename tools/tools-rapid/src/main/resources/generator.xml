@@ -12,17 +12,10 @@
 	<!-- jsp namespace: web/${namespace}/${className}/list.jsp -->
 	<entry key="namespace">pages</entry>
 	
-	<entry key="outRoot">.\generator-output</entry>
+	<entry key="outRoot">src/main/resources/output</entry>
 
 	<!-- 需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,v_ -->
 	<entry key="tableRemovePrefixes"></entry>
-	
-	<entry key="jdbc.username">sa</entry>
-	<entry key="jdbc.password">sa</entry>
-		
-	<!-- oracle需要指定jdbc.schema,其它数据库忽略此项配置  -->
-	<entry key="jdbc.schema"></entry>
-	<entry key="jdbc.catalog"></entry>
 	
 	<!-- 数据库类型映射  -->
 	<entry key="java_typemapping.java.sql.Timestamp">java.util.Date</entry>
@@ -31,16 +24,24 @@
 	<entry key="java_typemapping.java.lang.Byte">Integer</entry>
 	<entry key="java_typemapping.java.lang.Short">Integer</entry>
 	<entry key="java_typemapping.java.math.BigDecimal">Long</entry>
+	
+	<entry key="jdbc_username">root</entry>
+	<entry key="jdbc_password">root</entry>
 
-	<!-- H2 -->
+	<!-- H2 
 	<entry key="jdbc.url">jdbc:h2:tcp://localhost/test</entry>
 	<entry key="jdbc.driver">org.h2.Driver</entry>
-		
-	<!-- Mysql 
-	<entry key="jdbc.url">jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=UTF-8</entry>
-	<entry key="jdbc.driver">com.mysql.jdbc.Driver</entry>
 	-->
+		
+	<!-- Mysql -->
+	<entry key="jdbc_url">jdbc:mysql://localhost:3306/cdp?useUnicode=true&amp;characterEncoding=UTF-8</entry>
+	<entry key="jdbc_driver">com.mysql.jdbc.Driver</entry>
+	
 
+	<!-- oracle需要指定jdbc.schema,其它数据库忽略此项配置  
+	<entry key="jdbc.schema">udp</entry>
+	<entry key="jdbc.catalog">udp</entry>
+	-->
 	<!-- Oracle 	jdbc:oracle:oci:@tnsname_devdb
 	<entry key="jdbc.url">jdbc:oracle:thin:@192.168.0.177:1521:[sid]</entry>
 	<entry key="jdbc.driver">oracle.jdbc.driver.OracleDriver</entry>
